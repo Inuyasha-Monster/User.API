@@ -1,0 +1,35 @@
+stages:
+ - build
+ - test
+ - package
+ - deploy
+
+build:
+ stage: build
+ script:
+  - cd User.API
+  - dotnet build
+  
+test:
+  stage: test
+  script:
+   - cd User.API.UnitTests
+   - dotnet build
+   - dotnet test
+
+package:
+  stage: package
+  script: 
+   - cd User.API
+   - docker build -t userapi:test .
+   - docker login --username=djl394922860 --password djl394922860-= registry.cn-hangzhou.aliyuncs.com
+   - docker tag userapi:test registry.cn-hangzhou.aliyuncs.com/djlnet/userapi:test
+   - docker push registry.cn-hangzhou.aliyuncs.com/djlnet/userapi:test
+
+deploy:
+  stage: deploy
+  script:
+   - docker stop userapi
+   - docker rm userapi
+   - docker run -d -p 6666:80 --link db --name userapi registry.cn-hangzhou.aliyuncs.com/djlnet/userapi:test
+   

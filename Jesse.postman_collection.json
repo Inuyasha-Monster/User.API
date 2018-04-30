@@ -1,0 +1,111 @@
+﻿{
+  "variables": [],
+  "info": {
+    "name": "Jesse",
+    "_postman_id": "52ec0b4f-11d1-b6e2-d83f-8d1c4af3624d",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "http://localhost:5000/api/users",
+      "request": {
+        "url": "http://localhost:5000/api/users",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:6000/api/values",
+      "request": {
+        "url": "http://localhost:6000/api/values",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:6000/connect/token",
+      "request": {
+        "url": "http://localhost:6000/connect/token",
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "sms_auth_code",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "client_id",
+              "value": "android",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "client_secret",
+              "value": "secret",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "scopes",
+              "value": "openid user_api offine_access",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "phone",
+              "value": "18520066431",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "auth_code",
+              "value": "111111",
+              "type": "text",
+              "enabled": true
+            }
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:5000/api/users/check-or-create",
+      "request": {
+        "url": "http://localhost:5000/api/users/check-or-create",
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "phone",
+              "value": "18888888888",
+              "type": "text",
+              "enabled": true
+            }
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    }
+  ]
+}

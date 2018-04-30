@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API", "User.API\User.API.csproj", "{5E2BBD46-A70F-46C7-A387-7C12036E0CD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D3656FC9-6624-4006-94EF-B50291ABD298}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API.UnitTests", "User.API.UnitTests\User.API.UnitTests.csproj", "{93597286-2C0C-4714-9E20-AA65002E2F93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{0E2EF70A-59A6-4053-817A-1218203B2D67}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Identity", "User.Identity\User.Identity.csproj", "{CEF2964D-621B-4EC9-87D8-5CA853FF62BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postman", "Postman", "{5B432EE4-0208-463C-A559-119CF840566B}"
+	ProjectSection(SolutionItems) = preProject
+		Jesse.postman_collection.json = Jesse.postman_collection.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Geteway", "API.Geteway\API.Geteway.csproj", "{D73A4CCA-6C68-421F-9854-C389210852D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E2BBD46-A70F-46C7-A387-7C12036E0CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E2BBD46-A70F-46C7-A387-7C12036E0CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E2BBD46-A70F-46C7-A387-7C12036E0CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E2BBD46-A70F-46C7-A387-7C12036E0CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93597286-2C0C-4714-9E20-AA65002E2F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93597286-2C0C-4714-9E20-AA65002E2F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93597286-2C0C-4714-9E20-AA65002E2F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93597286-2C0C-4714-9E20-AA65002E2F93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEF2964D-621B-4EC9-87D8-5CA853FF62BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF2964D-621B-4EC9-87D8-5CA853FF62BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF2964D-621B-4EC9-87D8-5CA853FF62BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF2964D-621B-4EC9-87D8-5CA853FF62BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D73A4CCA-6C68-421F-9854-C389210852D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D73A4CCA-6C68-421F-9854-C389210852D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D73A4CCA-6C68-421F-9854-C389210852D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D73A4CCA-6C68-421F-9854-C389210852D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93597286-2C0C-4714-9E20-AA65002E2F93} = {D3656FC9-6624-4006-94EF-B50291ABD298}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {65F66E47-A249-4357-B42B-DE52FC074467}
+	EndGlobalSection
+EndGlobal
