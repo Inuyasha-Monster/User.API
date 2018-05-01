@@ -42,6 +42,7 @@ namespace User.Identity.Services
                 {
                     var id = await reponse.Content.ReadAsStringAsync();
                     int.TryParse(id, out int userid);
+                    _logger.LogTrace($"创建获取成功: {userid}");
                     return userid;
                 }
             }
