@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,17 @@ namespace API.Geteway
         public void ConfigureServices(IServiceCollection services)
         {
 
+            var authenticationProviderKey = "finbook";
 
+            services.AddAuthentication()
+                .AddIdentityServerAuthentication(authenticationProviderKey, x =>
+                {
+                    x.Authority = "http://localhost:6000"; // 授权地址
+                    x.ApiName = "gateway_userapi";
+                    x.SupportedTokens = SupportedTokens.Both;
+                    x.ApiSecret = "secret";
+                    x.RequireHttpsMetadata = false;
+                });
 
             services.AddOcelot();
         }
