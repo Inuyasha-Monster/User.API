@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGatewayWithConsul", "Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDnsClient", "TestDnsClient\TestDnsClient.csproj", "{8C851A72-4690-4E73-B46D-AA78299358AB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{9B772DF6-8821-494B-A689-94FF3E01825C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilience.Http", "Resilience.Http\Resilience.Http.csproj", "{5EF22293-99EC-4B3E-8889-FB728FB7E62A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,10 @@ Global
 		{8C851A72-4690-4E73-B46D-AA78299358AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C851A72-4690-4E73-B46D-AA78299358AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C851A72-4690-4E73-B46D-AA78299358AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF22293-99EC-4B3E-8889-FB728FB7E62A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF22293-99EC-4B3E-8889-FB728FB7E62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF22293-99EC-4B3E-8889-FB728FB7E62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF22293-99EC-4B3E-8889-FB728FB7E62A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +89,7 @@ Global
 		{0651E100-AC01-4AAB-9AF7-3B91BDD11EF2} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
 		{DFE4BF73-AD49-4860-B69D-C2EE06559CE4} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
 		{8C851A72-4690-4E73-B46D-AA78299358AB} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
+		{5EF22293-99EC-4B3E-8889-FB728FB7E62A} = {9B772DF6-8821-494B-A689-94FF3E01825C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65F66E47-A249-4357-B42B-DE52FC074467}

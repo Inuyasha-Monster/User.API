@@ -19,4 +19,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Resilience.Http\Resilience.Http.csproj" />
+  </ItemGroup>
+
 </Project>
