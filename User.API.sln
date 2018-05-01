@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsulApi2", "TestConsu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGatewayWithConsul", "ApiGatewayWithConsul\ApiGatewayWithConsul.csproj", "{DFE4BF73-AD49-4860-B69D-C2EE06559CE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDnsClient", "TestDnsClient\TestDnsClient.csproj", "{8C851A72-4690-4E73-B46D-AA78299358AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{DFE4BF73-AD49-4860-B69D-C2EE06559CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE4BF73-AD49-4860-B69D-C2EE06559CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFE4BF73-AD49-4860-B69D-C2EE06559CE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C851A72-4690-4E73-B46D-AA78299358AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C851A72-4690-4E73-B46D-AA78299358AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C851A72-4690-4E73-B46D-AA78299358AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C851A72-4690-4E73-B46D-AA78299358AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{455E5114-2C8C-4E7E-A711-3B76F46D8A19} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
 		{0651E100-AC01-4AAB-9AF7-3B91BDD11EF2} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
 		{DFE4BF73-AD49-4860-B69D-C2EE06559CE4} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
+		{8C851A72-4690-4E73-B46D-AA78299358AB} = {C6400B6C-AC25-4FF3-AE68-E0A3101D0B81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65F66E47-A249-4357-B42B-DE52FC074467}

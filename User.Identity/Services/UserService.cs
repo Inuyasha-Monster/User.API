@@ -1,18 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DnsClient;
+using Microsoft.Extensions.Options;
+using User.Identity.Options;
 
 namespace User.Identity.Services
 {
     public class UserService : IUserService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _userServiceUrl = "http://localhost:5000";
+        private readonly string _userServiceUrl;
 
-        public UserService(HttpClient httpClient)
+        public UserService(HttpClient httpClient, IDnsQuery dnsQuery, IOptions<ServiceDisvoveryOptions> options)
         {
             _httpClient = httpClient;
+            var result = dnsQuery.ResolveService("service.consul", options.Value.UserServiceName);
+            var addressList = result.First().AddressList;
+            var address = addressList.Any() ? addressList.First().ToString() : result.First().HostName;
+            var port = result.First().Port;
+            _userServiceUrl = $"http://{address}:{port}";
         }
 
         public async Task<int> CheckOrCreateAsync(string phone)

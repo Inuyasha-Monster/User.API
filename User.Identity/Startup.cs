@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using DnsClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using User.Identity.Authentication;
+using User.Identity.Options;
 using User.Identity.Services;
 
 namespace User.Identity
@@ -32,6 +35,17 @@ namespace User.Identity
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources());
+
+            services.AddOptions();
+            services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
+
+            services.AddSingleton<IDnsQuery>(p =>
+            {
+                var serviceConfiguration = p.GetRequiredService<IOptions<ServiceDisvoveryOptions>>().Value;
+
+                return new LookupClient(IPAddress.Parse(serviceConfiguration.Consul.DnsEndpoint.Address), serviceConfiguration.Consul.DnsEndpoint.Port);
+
+            });
 
             services.AddSingleton(new HttpClient());
 
