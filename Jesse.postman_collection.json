@@ -1,4 +1,4 @@
-﻿{
+{
   "variables": [],
   "info": {
     "name": "Jesse",
@@ -64,7 +64,7 @@
             },
             {
               "key": "scopes",
-              "value": "openid user_api offine_access",
+              "value": "openid gateway_userapi offine_access",
               "type": "text",
               "enabled": true
             },
@@ -102,6 +102,132 @@
               "enabled": true
             }
           ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:4000/users",
+      "request": {
+        "url": "http://localhost:4000/users",
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg3YjNhMDkzMDE1NWUxN2NiNWQ5YjdkODBlOWJkYzk0IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MjUxNDE1ODAsImV4cCI6MTUyNTE0NTE4MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo2MDAwIiwiYXVkIjpbImh0dHA6Ly9sb2NhbGhvc3Q6NjAwMC9yZXNvdXJjZXMiLCJnYXRld2F5X3VzZXJhcGkiXSwiY2xpZW50X2lkIjoiYW5kcm9pZCIsInN1YiI6IjMiLCJhdXRoX3RpbWUiOjE1MjUxNDE1ODAsImlkcCI6ImxvY2FsIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsImdhdGV3YXlfdXNlcmFwaSIsIm9mZmxpbmVfYWNjZXNzIl0sImFtciI6WyJzbXNfYXV0aF9jb2RlIl19.XWMXIjpMc_vz642l7mYIz6yXDwv0ax17h-Fg9QjW6Vrf8GuTH8aeBMcezgcmrkNdTXg_yNgOrY6Ikyc8V3n_OclwMhRO4ReCcpm2jTs2GXZsZZk7dZRlVELt0tAu4fuYWePKi7W5cjMnD9pawGzXu1FVSgh4Ocjd7AHg_yc33COVbjExQA7ESVUjo6TLJ-1X7VHOa8ZrJch7fBQhRYpQBD3cWJZvd2gBTwia1nonVbNdMln_FEbb3VkruQZnuNqzncWSyEWEH15Ey4Sd3lDARAjMiTjxtErQs_lLR-D5CKDBoeKGiQrCyQzE3d_gpCBHdQqEKfDoEybM5Gng8bzXLw",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:4000/connect/token",
+      "request": {
+        "url": "http://localhost:4000/connect/token",
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "grant_type",
+              "value": "sms_auth_code",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "client_id",
+              "value": "android",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "client_secret",
+              "value": "secret",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "scopes",
+              "value": "openid gateway_userapi offine_access",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "phone",
+              "value": "18875015143",
+              "type": "text",
+              "enabled": true
+            },
+            {
+              "key": "auth_code",
+              "value": "111111",
+              "type": "text",
+              "enabled": true
+            }
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:5000/api/users/tags",
+      "request": {
+        "url": "http://localhost:5000/api/users/tags",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:5000/api/users/search",
+      "request": {
+        "url": "http://localhost:5000/api/users/search",
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "phone",
+              "value": "",
+              "type": "text",
+              "enabled": true
+            }
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:5000/api/users/updateTags",
+      "request": {
+        "url": "http://localhost:5000/api/users/update-tags",
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\"rnxrbb\",\"mmp\"]"
         },
         "description": ""
       },

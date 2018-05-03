@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contact.API.Common;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Contact.API.Data
@@ -27,7 +28,11 @@ namespace Contact.API.Data
 
         private void CheckOrCreateCollection(string name)
         {
-            // todo: 检查是否存在，否则就创建
+            var list = _mongoDatabase.ListCollections().ToList().Select(x => x["name"].AsString);
+            if (!list.Contains(name))
+            {
+                _mongoDatabase.CreateCollection(name);
+            }
         }
 
         public IMongoCollection<FriendRequest> FriendRequestCollection
