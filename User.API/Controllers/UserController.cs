@@ -105,7 +105,7 @@ namespace User.API.Controllers
         }
 
         [HttpPut]
-        [Route("updateTags")]
+        [Route("update-tags")]
         public async Task<IActionResult> UpdateTags([FromBody]string[] tags)
         {
             tags = tags ?? new string[] { };
