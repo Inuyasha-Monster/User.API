@@ -75,6 +75,7 @@ namespace User.API.Controllers
         [Route("check-or-create")]
         public async Task<IActionResult> CheckOrCreate(string phone)
         {
+            // todo: phone验证
             var user = await _dbContext.AppUsers.SingleOrDefaultAsync(x => x.Phone == phone);
 
             if (user != null) return Ok(user.Id);
@@ -85,6 +86,43 @@ namespace User.API.Controllers
             await _dbContext.AppUsers.AddAsync(user);
             await _dbContext.SaveChangesAsync();
             return Ok(user.Id);
+        }
+
+        [HttpGet]
+        [Route("tags")]
+        public async Task<IActionResult> GetTags()
+        {
+            var result = await _dbContext.AppUserTags.Where(x => x.AppUserId == UserIdentity.UserId).ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("search")]
+        public async Task<IActionResult> Search([FromForm]string phone)
+        {
+            var appUser = await _dbContext.AppUsers.Include(x => x.Properties).SingleOrDefaultAsync(x => x.Phone == phone);
+            return Json(appUser);
+        }
+
+        [HttpPut]
+        [Route("updateTags")]
+        public async Task<IActionResult> UpdateTags([FromBody]string[] tags)
+        {
+            tags = tags ?? new string[] { };
+            var originList = await _dbContext.AppUserTags.Where(x => x.AppUserId == UserIdentity.UserId).Select(x => x.Tag).ToListAsync();
+            var removeTags = originList.Except(tags).ToList();
+            var addTags = tags.Except(originList).ToList();
+            await _dbContext.AddRangeAsync(addTags.Select(x => new AppUserTag()
+            {
+                AppUserId = UserIdentity.UserId,
+                Tag = x,
+                CreatedTime = DateTime.Now
+            }));
+            var removeList = await _dbContext.AppUserTags.Where(x => x.AppUserId == UserIdentity.UserId)
+                .Where(x => removeTags.Contains(x.Tag)).ToListAsync();
+            _dbContext.RemoveRange(removeList);
+            await _dbContext.SaveChangesAsync();
+            return Ok();
         }
     }
 }

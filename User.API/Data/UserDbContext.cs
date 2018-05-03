@@ -30,6 +30,7 @@ namespace User.API.Data
                 .HasKey(x => new { x.AppUserId, x.Tag });
 
             modelBuilder.Entity<AppUserTag>().Property(x => x.Tag).HasMaxLength(100);
+            modelBuilder.Entity<AppUserTag>().Property(x => x.CreatedTime).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<BPFile>()
                 .HasKey(x => x.Id);
