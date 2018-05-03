@@ -14,19 +14,19 @@ namespace Contact.API.Controllers
     public class ContractController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IContactRepository _contactRepository;
+        private readonly IContactFriendRequestRepository _contactFriendRequestRepository;
 
-        public ContractController(IUserService userService, IContactRepository contactRepository)
+        public ContractController(IUserService userService, IContactFriendRequestRepository contactFriendRequestRepository)
         {
             _userService = userService;
-            _contactRepository = contactRepository;
+            _contactFriendRequestRepository = contactFriendRequestRepository;
         }
-
+         
         [HttpPost]
         [Route("apply-list")]
         public async Task<IActionResult> GetApplyList()
         {
-            var friendRequests = await _contactRepository.GetFriendRequestListAsync(UserIdentity.CurrentUserId);
+            var friendRequests = await _contactFriendRequestRepository.GetFriendRequestListAsync(UserIdentity.CurrentUserId);
             return Json(friendRequests);
         }
 
@@ -41,7 +41,7 @@ namespace Contact.API.Controllers
         {
             var baseUserInfo = await _userService.GetBaseUserInfoAsync(userId);
             if (baseUserInfo == null) throw new UserContextException();
-            await _contactRepository.AddFriendAsync(new FriendRequest()
+            await _contactFriendRequestRepository.AddFriendAsync(new FriendRequest()
             {
                 AppliedUserId = UserIdentity.CurrentUserId,
                 ApplyDateTime = DateTime.Now,
@@ -65,7 +65,7 @@ namespace Contact.API.Controllers
         [Route("pass-apply")]
         public async Task<IActionResult> Passed(int userId)
         {
-            await _contactRepository.PassFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+            await _contactFriendRequestRepository.PassFriendRequestAsync(UserIdentity.CurrentUserId, userId);
             return Ok();
         }
 
@@ -78,7 +78,7 @@ namespace Contact.API.Controllers
         [Route("reject-apply")]
         public async Task<IActionResult> Reject(int userId)
         {
-            await _contactRepository.RejectFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+            await _contactFriendRequestRepository.RejectFriendRequestAsync(UserIdentity.CurrentUserId, userId);
             return Ok();
         }
     }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 
 namespace Contact.API
 {
@@ -33,20 +34,26 @@ namespace Contact.API
 
             services.AddSingleton<MongoContactDbContext>();
 
+            services.AddScoped<IContactFriendRequestRepository, MongoContactFriendRequestRepository>();
+
             services.AddScoped<IContactRepository, MongoContactRepository>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddLogging(x => x.AddConsole());
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            loggerFactory.AddConsole(LogLevel.Trace);
 
             app.UseMvc();
         }

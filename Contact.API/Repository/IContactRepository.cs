@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Contact.API.Data;
+﻿using System.Threading.Tasks;
+using Contact.API.Dtos;
 
 namespace Contact.API.Repository
 {
     public interface IContactRepository
     {
-        Task<IEnumerable<FriendRequest>> GetFriendRequestListAsync(int userId);
-        Task AddFriendAsync(FriendRequest request);
-        Task PassFriendRequestAsync(int userId, int appliedUserId);
-        Task RejectFriendRequestAsync(int userId, int appliedUserId);
+        /// <summary>
+        /// 更新好友基本信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        Task UpdateContactInfoAsync(int userId, BaseUserInfo info);
     }
 }

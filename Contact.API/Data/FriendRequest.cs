@@ -11,7 +11,7 @@ namespace Contact.API.Data
         public ObjectId ObjectId { get; set; }
 
         /// <summary>
-        /// 被加的好友用户ID
+        /// 当前用户ID
         /// </summary>
         public int UserId { get; set; }
 
@@ -22,7 +22,7 @@ namespace Contact.API.Data
         public string Avatar { get; set; }
 
         /// <summary>
-        /// 申请人用户ID
+        /// 好友用户ID
         /// </summary>
         public int AppliedUserId { get; set; }
 
