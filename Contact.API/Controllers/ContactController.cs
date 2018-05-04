@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contact.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ContractController : BaseController
+    public class ContactController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IContactFriendRequestRepository _contactFriendRequestRepository;
         private readonly IContactRepository _contactRepository;
 
-        public ContractController(IUserService userService, IContactFriendRequestRepository contactFriendRequestRepository, IContactRepository contactRepository)
+        public ContactController(IUserService userService, IContactFriendRequestRepository contactFriendRequestRepository, IContactRepository contactRepository)
         {
             _userService = userService;
             _contactFriendRequestRepository = contactFriendRequestRepository;
@@ -29,7 +29,7 @@ namespace Contact.API.Controllers
         /// 获取好友申请列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [Route("apply-list")]
         public async Task<IActionResult> GetApplyList()
         {
