@@ -25,6 +25,10 @@ namespace Contact.API.Controllers
             _contactRepository = contactRepository;
         }
 
+        /// <summary>
+        /// 获取好友申请列表
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("apply-list")]
         public async Task<IActionResult> GetApplyList()
