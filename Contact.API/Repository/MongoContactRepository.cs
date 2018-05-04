@@ -38,5 +38,34 @@ namespace Contact.API.Repository
             var updateResult = await _dbContext.ContactCollection.UpdateManyAsync(filterDefinition, updateDefinition);
             _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
         }
+
+        public async Task AddContactFriend(int userId, Data.Contact contact)
+        {
+            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            if (book == null)
+            {
+                await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
+                {
+                    UserId = userId
+                });
+            }
+
+            var filter = Builders<ContactBook>.Filter.Eq(x => x.UserId, userId);
+            var update = Builders<ContactBook>.Update.AddToSet(x => x.Contacts, contact);
+
+            await _dbContext.ContactCollection.UpdateOneAsync(filter, update);
+        }
+
+        public async Task DeleteFriend(int userId, int friendUserId)
+        {
+            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            if (book == null) throw new UserContextException();
+            var filter = Builders<ContactBook>.Filter.Eq(x => x.UserId, userId);
+
+            var removeFilter = Builders<ContactBook>.Filter.Eq("UserId", friendUserId);
+            var update = Builders<ContactBook>.Update.PullFilter("Contacts.$.UserId", removeFilter);
+
+            await _dbContext.ContactCollection.FindOneAndUpdateAsync(filter, update);
+        }
     }
 }

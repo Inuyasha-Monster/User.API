@@ -7,6 +7,12 @@ namespace Contact.API.Data
 {
     public class FriendRequest
     {
+        public FriendRequest()
+        {
+            ApplyStatus = ApplyStatus.Waiting;
+            ApplyDateTime = DateTime.Now;
+        }
+
         [BsonId]
         public ObjectId ObjectId { get; set; }
 
@@ -29,5 +35,6 @@ namespace Contact.API.Data
         public ApplyStatus ApplyStatus { get; set; }
 
         public DateTime ApplyDateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
     }
 }

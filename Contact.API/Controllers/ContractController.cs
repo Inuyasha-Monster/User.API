@@ -15,13 +15,15 @@ namespace Contact.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IContactFriendRequestRepository _contactFriendRequestRepository;
+        private readonly IContactRepository _contactRepository;
 
-        public ContractController(IUserService userService, IContactFriendRequestRepository contactFriendRequestRepository)
+        public ContractController(IUserService userService, IContactFriendRequestRepository contactFriendRequestRepository, IContactRepository contactRepository)
         {
             _userService = userService;
             _contactFriendRequestRepository = contactFriendRequestRepository;
+            _contactRepository = contactRepository;
         }
-         
+
         [HttpPost]
         [Route("apply-list")]
         public async Task<IActionResult> GetApplyList()
@@ -66,6 +68,31 @@ namespace Contact.API.Controllers
         public async Task<IActionResult> Passed(int userId)
         {
             await _contactFriendRequestRepository.PassFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+
+            var friendInfo = await _userService.GetBaseUserInfoAsync(userId);
+            await _contactRepository.AddContactFriend(UserIdentity.CurrentUserId, new Data.Contact()
+            {
+                Avatar = friendInfo.Avatar,
+                Company = friendInfo.Company,
+                Name = friendInfo.Name,
+                Phone = friendInfo.Phone,
+                Tags = friendInfo.Tags,
+                Title = friendInfo.Title,
+                UserId = userId
+            });
+
+            var baseUserInfo = await _userService.GetBaseUserInfoAsync(UserIdentity.CurrentUserId);
+            await _contactRepository.AddContactFriend(userId, new Data.Contact()
+            {
+                Avatar = baseUserInfo.Avatar,
+                Company = baseUserInfo.Company,
+                Name = baseUserInfo.Name,
+                Phone = baseUserInfo.Phone,
+                Tags = baseUserInfo.Tags,
+                Title = baseUserInfo.Title,
+                UserId = UserIdentity.CurrentUserId
+            });
+
             return Ok();
         }
 
@@ -79,6 +106,15 @@ namespace Contact.API.Controllers
         public async Task<IActionResult> Reject(int userId)
         {
             await _contactFriendRequestRepository.RejectFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("delete-friend")]
+        public async Task<IActionResult> DeleteFriend(int friendUserId)
+        {
+            await _contactRepository.DeleteFriend(UserIdentity.CurrentUserId, friendUserId);
+            await _contactRepository.DeleteFriend(friendUserId, UserIdentity.CurrentUserId);
             return Ok();
         }
     }

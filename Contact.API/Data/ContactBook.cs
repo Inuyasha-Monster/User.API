@@ -9,6 +9,11 @@ namespace Contact.API.Data
     /// </summary>
     public class ContactBook
     {
+        public ContactBook()
+        {
+            Contacts = new List<Contact>();
+        }
+
         [BsonId]
         public ObjectId ObjectId { get; set; }
         public int UserId { get; set; }

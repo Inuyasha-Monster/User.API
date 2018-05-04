@@ -42,9 +42,10 @@ namespace Contact.API.Repository
         public async Task PassFriendRequestAsync(int userId, int appliedUserId)
         {
             BsonDocumentUpdateDefinition<FriendRequest> updateDefinition =
-                new BsonDocumentUpdateDefinition<FriendRequest>(new BsonDocument(new Dictionary<string, int>()
+                new BsonDocumentUpdateDefinition<FriendRequest>(new BsonDocument(new Dictionary<string, object>()
                 {
-                    {"ApplyStatus",(int)ApplyStatus.Passed }
+                    {"ApplyStatus",(int)ApplyStatus.Passed },
+                    {"UpdateTime",DateTime.Now }
                 }));
             await _dbContext.FriendRequestCollection.UpdateOneAsync(
                 x => x.UserId == userId && x.AppliedUserId == appliedUserId,
@@ -54,9 +55,10 @@ namespace Contact.API.Repository
         public async Task RejectFriendRequestAsync(int userId, int appliedUserId)
         {
             BsonDocumentUpdateDefinition<FriendRequest> updateDefinition =
-                new BsonDocumentUpdateDefinition<FriendRequest>(new BsonDocument(new Dictionary<string, int>()
+                new BsonDocumentUpdateDefinition<FriendRequest>(new BsonDocument(new Dictionary<string, object>()
                 {
-                    {"ApplyStatus",(int)ApplyStatus.Reject }
+                    {"ApplyStatus",(int)ApplyStatus.Reject },
+                    {"UpdateTime",DateTime.Now }
                 }));
             await _dbContext.FriendRequestCollection.UpdateOneAsync(
                 x => x.UserId == userId && x.AppliedUserId == appliedUserId,

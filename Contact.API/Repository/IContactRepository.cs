@@ -12,5 +12,9 @@ namespace Contact.API.Repository
         /// <param name="info"></param>
         /// <returns></returns>
         Task UpdateContactInfoAsync(int userId, BaseUserInfo info);
+
+        Task AddContactFriend(int userId, Data.Contact contact);
+
+        Task DeleteFriend(int userId, int friendUserId);
     }
 }

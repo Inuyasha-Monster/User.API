@@ -5,6 +5,11 @@
     /// </summary>
     public class Contact
     {
+        public Contact()
+        {
+            Tags = new string[] { };
+        }
+
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Company { get; set; }
