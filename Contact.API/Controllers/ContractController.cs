@@ -64,7 +64,7 @@ namespace Contact.API.Controllers
         /// </summary>
         /// <param name="userId">被申请的人的用户ID</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("pass-apply")]
         public async Task<IActionResult> Passed(int userId)
         {
@@ -102,7 +102,7 @@ namespace Contact.API.Controllers
         /// </summary>
         /// <param name="userId">被申请的人的用户ID</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("reject-apply")]
         public async Task<IActionResult> Reject(int userId)
         {
@@ -115,7 +115,7 @@ namespace Contact.API.Controllers
         /// </summary>
         /// <param name="friendUserId"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("delete-friend")]
         public async Task<IActionResult> DeleteFriend(int friendUserId)
         {
@@ -136,7 +136,12 @@ namespace Contact.API.Controllers
             return Json(list);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// 给好友打标签
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut]
         [Route("tags")]
         public async Task<IActionResult> Tags([FromBody]TagRequest request)
         {
