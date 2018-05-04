@@ -48,11 +48,11 @@ namespace User.Identity.Authentication
 
             List<Claim> list = new List<Claim>()
             {
-                new Claim("Name",userInfo.Name??string.Empty),
-                new Claim("Company",userInfo.Company??string.Empty),
-                new Claim("Phone",userInfo.Phone??string.Empty),
-                new Claim("Title",userInfo.Title??string.Empty),
-                new Claim("Avatar",userInfo.Avatar??string.Empty),
+                new Claim("name",userInfo.Name??string.Empty),
+                new Claim("company",userInfo.Company??string.Empty),
+                new Claim("phone",userInfo.Phone??string.Empty),
+                new Claim("title",userInfo.Title??string.Empty),
+                new Claim("avatar",userInfo.Avatar??string.Empty),
             };
 
             context.Result = new GrantValidationResult(userInfo.Id.ToString(), GrantType, list);
