@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using DnsClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Resilience.Http;
+using User.Identity.Dtos;
 using User.Identity.Options;
 
 namespace User.Identity.Services
@@ -29,21 +31,21 @@ namespace User.Identity.Services
             _userServiceUrl = $"http://{address}:{port}";
         }
 
-        public async Task<int> CheckOrCreateAsync(string phone)
+        public async Task<UserInfo> CheckOrCreateAsync(string phone)
         {
             var form = new Dictionary<string, string>()
             {
                 {"phone" , phone }
             };
+            UserInfo userInfo = null;
             try
             {
-                var reponse = await _httpClient.PostAsync($"{_userServiceUrl}/api/users/check-or-create", new FormUrlEncodedContent(form));
+                var reponse = await _httpClient.PostAsync($"{_userServiceUrl}/api/users/check-or-create", form);
                 if (reponse.StatusCode == HttpStatusCode.OK)
                 {
-                    var id = await reponse.Content.ReadAsStringAsync();
-                    int.TryParse(id, out int userid);
-                    _logger.LogTrace($"创建获取成功: {userid}");
-                    return userid;
+                    var str = await reponse.Content.ReadAsStringAsync();
+                    userInfo = JsonConvert.DeserializeObject<UserInfo>(str);
+                    _logger.LogTrace($"创建获取成功: {userInfo}");
                 }
             }
             catch (Exception e)
@@ -51,8 +53,7 @@ namespace User.Identity.Services
                 _logger.LogError(e, "CheckOrCreateAsync重试失败:");
                 throw;
             }
-
-            return await Task.FromResult(0);
+            return userInfo;
         }
     }
 }

@@ -73,19 +73,19 @@ namespace User.API.Controllers
 
         [HttpPost]
         [Route("check-or-create")]
-        public async Task<IActionResult> CheckOrCreate(string phone)
+        public async Task<IActionResult> CheckOrCreate([FromForm]string phone)
         {
             // todo: phone验证
             var user = await _dbContext.AppUsers.SingleOrDefaultAsync(x => x.Phone == phone);
 
-            if (user != null) return Ok(user.Id);
+            if (user != null) return Ok(user);
             user = new AppUser()
             {
                 Phone = phone
             };
             await _dbContext.AppUsers.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            return Ok(user.Id);
+            return Ok(user);
         }
 
         [HttpGet]
