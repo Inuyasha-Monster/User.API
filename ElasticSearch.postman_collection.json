@@ -1,0 +1,203 @@
+{
+  "variables": [],
+  "info": {
+    "name": "ElasticSearch",
+    "_postman_id": "d9406b93-cd8e-4c6e-4391-8655f70e8b4f",
+    "description": "ElasticSearch",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "查询节点信息",
+      "request": {
+        "url": "http://localhost:9200/_cat/node?v",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "description": "http://localhost:9200/_cat/node?v="
+      },
+      "response": []
+    },
+    {
+      "name": "创建索引",
+      "request": {
+        "url": "http://localhost:9200/customer?pretty",
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/customer?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "查询索引信息",
+      "request": {
+        "url": "http://localhost:9200/_cat/indices?v",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/customer?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "插入文档",
+      "request": {
+        "url": "http://localhost:9200/customer/_doc?pretty",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"hehe\"\r\n}"
+        },
+        "description": "http://localhost:92000/customer/_doc/1?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "查询文档",
+      "request": {
+        "url": "http://localhost:9200/customer/_doc/100?pretty",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/customer/_doc/1?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "删除索引",
+      "request": {
+        "url": "http://localhost:9200/customer?pretty",
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/customer?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "修改文档",
+      "request": {
+        "url": "http://localhost:9200/customer/_doc/1/_update?pretty",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"script\" : \"ctx._source.age += 5\"\r\n}"
+        },
+        "description": "http://localhost:9200/customer/_doc/1/_update?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "删除文档",
+      "request": {
+        "url": "http://localhost:9200/customer/_doc/2?pretty",
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/customer/_doc/1?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "ES 基本信息",
+      "request": {
+        "url": "http://localhost:9200/",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/"
+      },
+      "response": []
+    },
+    {
+      "name": "健康查询",
+      "request": {
+        "url": "http://localhost:9200/_cat/health?v",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:9200/_cat/health?v"
+      },
+      "response": []
+    },
+    {
+      "name": "批量操作",
+      "request": {
+        "url": "http://localhost:9200/customer/_doc/_bulk?pretty",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"update\":{\"_id\":\"1\"}}\r\n{\"doc\": { \"name\": \"John Doe becomes Jane Doe\" } }\r\n{\"delete\":{\"_id\":\"2\"}}"
+        },
+        "description": "http://localhost:9200/customer/_doc/_bulk?pretty"
+      },
+      "response": []
+    },
+    {
+      "name": "Kibanna Api Status",
+      "request": {
+        "url": "http://localhost:5601/api/status",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"update\":{\"_id\":\"1\"}}\r\n{\"doc\": { \"name\": \"John Doe becomes Jane Doe\" } }\r\n{\"delete\":{\"_id\":\"2\"}}"
+        },
+        "description": "http://localhost:5601/api/status"
+      },
+      "response": []
+    }
+  ]
+}

@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.Identity", "User.Ident
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postman", "Postman", "{5B432EE4-0208-463C-A559-119CF840566B}"
 	ProjectSection(SolutionItems) = preProject
+		ElasticSearch.postman_collection.json = ElasticSearch.postman_collection.json
 		Jesse.postman_collection.json = Jesse.postman_collection.json
+		LocalTransactionTest.postman_collection.json = LocalTransactionTest.postman_collection.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Geteway", "API.Geteway\API.Geteway.csproj", "{D73A4CCA-6C68-421F-9854-C389210852D3}"

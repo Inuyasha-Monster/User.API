@@ -1,0 +1,59 @@
+{
+  "variables": [],
+  "info": {
+    "name": "LocalTransactionTest",
+    "_postman_id": "6aaa8cf7-a161-8f0c-ee94-9f27f74709ac",
+    "description": "本地消息事务表测试",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "测试",
+      "request": {
+        "url": "http://localhost:8888/api/values",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:8888/api/values"
+      },
+      "response": []
+    },
+    {
+      "name": "查看指定id订单",
+      "request": {
+        "url": "http://localhost:8888/api/order?id=BC6ABF71-828A-4F2C-A937-ADCA5C974239",
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": []
+        },
+        "description": "http://localhost:8888/api/order?id=BC6ABF71-828A-4F2C-A937-ADCA5C974239"
+      },
+      "response": []
+    },
+    {
+      "name": "创建订单",
+      "request": {
+        "url": "http://localhost:8888/api/order",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "description": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "description": "http://localhost:8888/api/order"
+      },
+      "response": []
+    }
+  ]
+}
