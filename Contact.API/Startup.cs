@@ -30,9 +30,13 @@ namespace Contact.API
         {
 
             services.AddOptions();
-            services.Configure<AppSetting>(Configuration);
+            services.Configure<AppSetting>(x =>
+            {
+                x.MongoDbConnectionString = Configuration["MongoDbConnectionString"].ToString();
+                x.MongoDbDatabase = Configuration["MongoDbDatabase"].ToString();
+            });
 
-            services.AddSingleton<MongoContactDbContext>(sp => new MongoContactDbContext(sp.GetRequiredService<IOptionsSnapshot<AppSetting>>()));
+            services.AddSingleton<MongoContactDbContext>();
 
             services.AddScoped<IContactFriendRequestRepository, MongoContactFriendRequestRepository>();
 
