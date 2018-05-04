@@ -39,7 +39,7 @@ namespace Contact.API.Repository
             _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
         }
 
-        public async Task AddContactFriend(int userId, Data.Contact contact)
+        public async Task AddContactFriendAsync(int userId, Data.Contact contact)
         {
             var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
             if (book == null)
@@ -56,7 +56,7 @@ namespace Contact.API.Repository
             await _dbContext.ContactCollection.UpdateOneAsync(filter, update);
         }
 
-        public async Task DeleteFriend(int userId, int friendUserId)
+        public async Task DeleteFriendAsync(int userId, int friendUserId)
         {
             var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
             if (book == null) throw new UserContextException();
@@ -66,6 +66,30 @@ namespace Contact.API.Repository
             var update = Builders<ContactBook>.Update.PullFilter("Contacts.$.UserId", removeFilter);
 
             await _dbContext.ContactCollection.FindOneAndUpdateAsync(filter, update);
+        }
+
+        public async Task<IEnumerable<Data.Contact>> GetAllFriendListAsync(int userId)
+        {
+            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            if (book == null)
+            {
+                await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
+                {
+                    UserId = userId
+                });
+                return new List<Data.Contact>();
+            }
+            var contactBook = await book.FirstOrDefaultAsync();
+            return contactBook.Contacts.ToList();
+        }
+
+        public async Task ContactTagsAsync(int userId, int friendUserId, string[] tags)
+        {
+            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            if (book == null) throw new UserContextException();
+            var filter = Builders<ContactBook>.Filter.And(Builders<ContactBook>.Filter.Eq(x => x.UserId, userId), Builders<ContactBook>.Filter.Eq("Contacts.UserId", friendUserId));
+            var update = Builders<ContactBook>.Update.Set("Contacts.$.Tags", tags);
+            await _dbContext.ContactCollection.UpdateOneAsync(filter, update);
         }
     }
 }

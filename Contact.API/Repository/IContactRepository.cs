@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Contact.API.Dtos;
 
 namespace Contact.API.Repository
@@ -13,8 +14,12 @@ namespace Contact.API.Repository
         /// <returns></returns>
         Task UpdateContactInfoAsync(int userId, BaseUserInfo info);
 
-        Task AddContactFriend(int userId, Data.Contact contact);
+        Task AddContactFriendAsync(int userId, Data.Contact contact);
 
-        Task DeleteFriend(int userId, int friendUserId);
+        Task DeleteFriendAsync(int userId, int friendUserId);
+
+        Task<IEnumerable<Data.Contact>> GetAllFriendListAsync(int userId);
+
+        Task ContactTagsAsync(int userId, int friendUserId, string[] tags);
     }
 }

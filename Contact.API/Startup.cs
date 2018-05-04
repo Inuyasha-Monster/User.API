@@ -32,7 +32,7 @@ namespace Contact.API
             services.AddOptions();
             services.Configure<AppSetting>(Configuration);
 
-            services.AddSingleton<MongoContactDbContext>();
+            services.AddSingleton<MongoContactDbContext>(sp => new MongoContactDbContext(sp.GetRequiredService<IOptionsSnapshot<AppSetting>>()));
 
             services.AddScoped<IContactFriendRequestRepository, MongoContactFriendRequestRepository>();
 

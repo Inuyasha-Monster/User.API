@@ -6,6 +6,7 @@ using Contact.API.Common;
 using Contact.API.Data;
 using Contact.API.Repository;
 using Contact.API.Service;
+using Contact.API.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact.API.Controllers
@@ -70,7 +71,7 @@ namespace Contact.API.Controllers
             await _contactFriendRequestRepository.PassFriendRequestAsync(UserIdentity.CurrentUserId, userId);
 
             var friendInfo = await _userService.GetBaseUserInfoAsync(userId);
-            await _contactRepository.AddContactFriend(UserIdentity.CurrentUserId, new Data.Contact()
+            await _contactRepository.AddContactFriendAsync(UserIdentity.CurrentUserId, new Data.Contact()
             {
                 Avatar = friendInfo.Avatar,
                 Company = friendInfo.Company,
@@ -82,7 +83,7 @@ namespace Contact.API.Controllers
             });
 
             var baseUserInfo = await _userService.GetBaseUserInfoAsync(UserIdentity.CurrentUserId);
-            await _contactRepository.AddContactFriend(userId, new Data.Contact()
+            await _contactRepository.AddContactFriendAsync(userId, new Data.Contact()
             {
                 Avatar = baseUserInfo.Avatar,
                 Company = baseUserInfo.Company,
@@ -109,12 +110,37 @@ namespace Contact.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// 删除好友(双向)
+        /// </summary>
+        /// <param name="friendUserId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("delete-friend")]
         public async Task<IActionResult> DeleteFriend(int friendUserId)
         {
-            await _contactRepository.DeleteFriend(UserIdentity.CurrentUserId, friendUserId);
-            await _contactRepository.DeleteFriend(friendUserId, UserIdentity.CurrentUserId);
+            await _contactRepository.DeleteFriendAsync(UserIdentity.CurrentUserId, friendUserId);
+            await _contactRepository.DeleteFriendAsync(friendUserId, UserIdentity.CurrentUserId);
+            return Ok();
+        }
+
+        /// <summary>
+        ///  获取朋友列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("friends")]
+        public async Task<IActionResult> GetFriends()
+        {
+            var list = await _contactRepository.GetAllFriendListAsync(UserIdentity.CurrentUserId);
+            return Json(list);
+        }
+
+        [HttpPost]
+        [Route("tags")]
+        public async Task<IActionResult> Tags([FromBody]TagRequest request)
+        {
+            await _contactRepository.ContactTagsAsync(UserIdentity.CurrentUserId, request.FriendUserId, request.Tags);
             return Ok();
         }
     }
