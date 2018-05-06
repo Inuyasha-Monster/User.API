@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Contact.API.Common;
 using Contact.API.Data;
 using Contact.API.Repository;
 using Contact.API.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +49,20 @@ namespace Contact.API
             services.AddLogging(x => x.AddConsole());
 
             services.AddMvc();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "http://localhost:4000";
+                    options.Audience = "gateway_contactapi";
+                    options.RequireHttpsMetadata = false;
+                });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +74,8 @@ namespace Contact.API
             }
 
             loggerFactory.AddConsole(LogLevel.Trace);
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }

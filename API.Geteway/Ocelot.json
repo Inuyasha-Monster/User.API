@@ -17,6 +17,18 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/connect/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/connect/{catchAll}",
+      "UpstreamHttpMethod": [ "Get","Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/connect/token",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -26,6 +38,7 @@
         }
       ],
       "UpstreamPathTemplate": "/connect/token",
+      "Priority": 1,
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
@@ -38,7 +51,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/add-apply",
@@ -111,6 +128,18 @@
       ],
       "UpstreamPathTemplate": "/contact/tags",
       "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/.well-known/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6000
+        }
+      ],
+      "UpstreamPathTemplate": "/.well-known/{catchAll}",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {

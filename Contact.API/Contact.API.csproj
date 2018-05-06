@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.3" />
     <PackageReference Include="MongoDB.Driver" Version="2.6.0" />
   </ItemGroup>
 
