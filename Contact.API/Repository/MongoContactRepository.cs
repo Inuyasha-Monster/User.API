@@ -95,11 +95,23 @@ namespace Contact.API.Repository
 
         public async Task ContactTagsAsync(int userId, int friendUserId, string[] tags)
         {
-            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
-            if (book == null) throw new UserContextException();
-            var filter = Builders<ContactBook>.Filter.And(Builders<ContactBook>.Filter.Eq(x => x.UserId, userId), Builders<ContactBook>.Filter.Eq("Contacts.UserId", friendUserId));
-            var update = Builders<ContactBook>.Update.Set("Contacts.$.Tags", tags);
-            await _dbContext.ContactCollection.UpdateOneAsync(filter, update);
+            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (book == null)
+            {
+                await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
+                {
+                    UserId = userId
+                });
+            }
+
+            if (book != null && book.Contacts.Any() && book.Contacts.Select(x => x.UserId).ToList()
+                    .Contains(friendUserId))
+            {
+                var filter = Builders<ContactBook>.Filter.And(Builders<ContactBook>.Filter.Eq(x => x.UserId, userId), Builders<ContactBook>.Filter.Eq("Contacts.UserId", friendUserId));
+                var update = Builders<ContactBook>.Update.Set("Contacts.$.Tags", tags);
+                await _dbContext.ContactCollection.UpdateOneAsync(filter, update);
+            }
+
         }
     }
 }
