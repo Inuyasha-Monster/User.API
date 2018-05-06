@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using User.API.Data;
+using User.API.Dtos;
 using User.API.Models;
 
 namespace User.API.Controllers
@@ -123,6 +124,26 @@ namespace User.API.Controllers
             _dbContext.RemoveRange(removeList);
             await _dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("baseinfo")]
+        public async Task<IActionResult> BaseInfo(int userid)
+        {
+            var appUser = await _dbContext.AppUsers.SingleOrDefaultAsync(x => x.Id == userid);
+            if (appUser == null) return NotFound();
+            var baseInfo = new BaseUserInfo()
+            {
+                Avatar = appUser.Avatar,
+                Company = appUser.Company,
+                Name = appUser.Name,
+                Phone = appUser.Phone,
+                Title = appUser.Title,
+                UserId = appUser.Id
+            };
+            baseInfo.Tags = await _dbContext.AppUserTags.Where(x => x.AppUserId == appUser.Id).Select(x => x.Tag)
+                .ToArrayAsync() ?? new string[] { };
+            return Ok(baseInfo);
         }
     }
 }

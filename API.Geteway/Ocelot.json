@@ -10,10 +10,10 @@
         }
       ],
       "UpstreamPathTemplate": "/users",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamHttpMethod": [ "Get","Patch" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "finbook",
-        "AllowedScopes": []
+        "AllowedScopes": [ "gateway_userapi" ]
       }
     },
     {
@@ -67,7 +67,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/add-apply",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/pass-apply",
@@ -79,7 +83,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/pass-apply",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/reject-apply",
@@ -91,7 +99,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/reject-apply",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/delete-friend",
@@ -103,7 +115,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/delete-friend",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/friends",
@@ -115,7 +131,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/friends",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/api/contact/tags",
@@ -127,7 +147,11 @@
         }
       ],
       "UpstreamPathTemplate": "/contact/tags",
-      "UpstreamHttpMethod": [ "Put" ]
+      "UpstreamHttpMethod": [ "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_contactapi" ]
+      }
     },
     {
       "DownstreamPathTemplate": "/.well-known/{catchAll}",

@@ -22,6 +22,7 @@ namespace User.Identity
         {
             return new List<ApiResource>()
             {
+                new ApiResource("gateway_api","gateway api service"),
                 new ApiResource("gateway_userapi","user service"),
                 new ApiResource("gateway_contactapi","contact service")
             };
@@ -49,6 +50,7 @@ namespace User.Identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        "gateway_api",
                         "gateway_userapi",
                         "gateway_contactapi",
                         IdentityServerConstants.StandardScopes.OfflineAccess

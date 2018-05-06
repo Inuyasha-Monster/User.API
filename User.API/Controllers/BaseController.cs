@@ -12,10 +12,21 @@ namespace User.API.Controllers
         /// <summary>
         /// todo: 从token中获取当前请求用户的userid
         /// </summary>
-        protected UserIdentity UserIdentity => new UserIdentity()
+        protected UserIdentity UserIdentity
         {
-            UserId = 1,
-            Name = "djlnet"
-        };
+            get
+            {
+                var user = new UserIdentity();
+
+                user.Avatar = User.Claims.First(x => x.Type == "avatar").Value;
+                user.Company = User.Claims.First(x => x.Type == "company").Value;
+                user.Name = User.Claims.First(x => x.Type == "name").Value;
+                user.Phone = User.Claims.First(x => x.Type == "phone").Value;
+                user.Title = User.Claims.First(x => x.Type == "title").Value;
+                user.UserId = int.Parse(User.Claims.First(x => x.Type == "sub").Value);
+
+                return user;
+            }
+        }
     }
 }

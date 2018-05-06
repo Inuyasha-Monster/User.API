@@ -8,6 +8,6 @@ namespace Contact.API.Service
         public async Task<BaseUserInfo> GetBaseUserInfoAsync(int userId)
         {
             throw new System.NotImplementedException();
-        }
+        }  
     }
 }

@@ -25,7 +25,7 @@ namespace API.Geteway
                 .AddIdentityServerAuthentication(authenticationProviderKey, x =>
                 {
                     x.Authority = "http://localhost:6000"; // 授权地址
-                    x.ApiName = "gateway_userapi";
+                    x.ApiName = "gateway_api";
                     x.SupportedTokens = SupportedTokens.Both;
                     x.ApiSecret = "secret";
                     x.RequireHttpsMetadata = false;
