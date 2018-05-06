@@ -10,5 +10,6 @@ namespace Contact.API.Repository
         Task AddFriendAsync(FriendRequest request);
         Task PassFriendRequestAsync(int userId, int appliedUserId);
         Task RejectFriendRequestAsync(int userId, int appliedUserId);
+        Task<bool> ExistFriendRequestAsync(int userId, int appliedUserId);
     }
 }

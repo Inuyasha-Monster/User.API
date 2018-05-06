@@ -7,6 +7,7 @@ namespace Contact.API.Data
     /// <summary>
     /// 通讯录
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class ContactBook
     {
         public ContactBook()

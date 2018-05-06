@@ -2,9 +2,15 @@
 using Contact.API.Data.Enum;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Contact.API.Data
 {
+    /// <summary>
+    /// 好友申请模型
+    /// </summary>
+    [BsonIgnoreExtraElements]
     public class FriendRequest
     {
         public FriendRequest()
@@ -32,6 +38,8 @@ namespace Contact.API.Data
         /// </summary>
         public int AppliedUserId { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
+        [BsonRepresentation(BsonType.String)]
         public ApplyStatus ApplyStatus { get; set; }
 
         public DateTime ApplyDateTime { get; set; }

@@ -41,7 +41,7 @@ namespace Contact.API.Repository
 
         public async Task AddContactFriendAsync(int userId, Data.Contact contact)
         {
-            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
             if (book == null)
             {
                 await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
@@ -58,19 +58,29 @@ namespace Contact.API.Repository
 
         public async Task DeleteFriendAsync(int userId, int friendUserId)
         {
-            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
-            if (book == null) throw new UserContextException();
-            var filter = Builders<ContactBook>.Filter.Eq(x => x.UserId, userId);
+            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (book == null)
+            {
+                await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
+                {
+                    UserId = userId
+                });
+            }
+            //var filter = Builders<ContactBook>.Filter.Eq(x => x.UserId, userId);
 
-            var removeFilter = Builders<ContactBook>.Filter.Eq("UserId", friendUserId);
-            var update = Builders<ContactBook>.Update.PullFilter("Contacts.$.UserId", removeFilter);
+            //var removeFilter = Builders<ContactBook>.Filter.Eq("UserId", friendUserId);
 
-            await _dbContext.ContactCollection.FindOneAndUpdateAsync(filter, update);
+            if (book != null && book.Contacts.Any() && book.Contacts.Select(x => x.UserId).ToList().Contains(friendUserId))
+            {
+                var update = Builders<ContactBook>.Update.PullFilter(x => x.Contacts, f => f.UserId == friendUserId);
+
+                await _dbContext.ContactCollection.FindOneAndUpdateAsync(x => x.UserId == userId, update);
+            }
         }
 
         public async Task<IEnumerable<Data.Contact>> GetAllFriendListAsync(int userId)
         {
-            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
+            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
             if (book == null)
             {
                 await _dbContext.ContactCollection.InsertOneAsync(new ContactBook()
@@ -79,8 +89,8 @@ namespace Contact.API.Repository
                 });
                 return new List<Data.Contact>();
             }
-            var contactBook = await book.FirstOrDefaultAsync();
-            return contactBook.Contacts.ToList();
+            var contactBook = book.Contacts;
+            return contactBook;
         }
 
         public async Task ContactTagsAsync(int userId, int friendUserId, string[] tags)

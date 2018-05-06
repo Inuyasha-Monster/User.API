@@ -127,7 +127,7 @@ namespace User.API.Controllers
         }
 
         [HttpGet]
-        [Route("baseinfo")]
+        [Route("baseinfo/{userid}")]
         public async Task<IActionResult> BaseInfo(int userid)
         {
             var appUser = await _dbContext.AppUsers.SingleOrDefaultAsync(x => x.Id == userid);

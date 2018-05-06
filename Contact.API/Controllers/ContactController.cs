@@ -72,6 +72,9 @@ namespace Contact.API.Controllers
         [Route("pass-apply")]
         public async Task<IActionResult> Passed(int userId)
         {
+            var b = await _contactFriendRequestRepository.ExistFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+            if (!b) return NotFound();
+
             await _contactFriendRequestRepository.PassFriendRequestAsync(UserIdentity.CurrentUserId, userId);
 
             var friendInfo = await _userService.GetBaseUserInfoAsync(userId);
@@ -110,6 +113,8 @@ namespace Contact.API.Controllers
         [Route("reject-apply")]
         public async Task<IActionResult> Reject(int userId)
         {
+            var b = await _contactFriendRequestRepository.ExistFriendRequestAsync(UserIdentity.CurrentUserId, userId);
+            if (!b) return NotFound();
             await _contactFriendRequestRepository.RejectFriendRequestAsync(UserIdentity.CurrentUserId, userId);
             return Ok();
         }
