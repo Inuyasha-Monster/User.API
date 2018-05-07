@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contact.API.Common;
 using Contact.API.Data;
+using Contact.API.Dtos;
+using Contact.API.IntergrationEvents;
 using Contact.API.Repository;
 using Contact.API.Service;
 using Contact.API.ViewModel;
+using DotNetCore.CAP;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact.API.Controllers
@@ -156,6 +159,21 @@ namespace Contact.API.Controllers
         {
             await _contactRepository.ContactTagsAsync(UserIdentity.CurrentUserId, request.FriendUserId, request.Tags);
             return Ok();
+        }
+
+        [NonAction]
+        [CapSubscribe("userapi.userinfochanged")]
+        public async Task ConsumerAppUserInfoChangedEvent(AppUserInfoChangedEvent @event)
+        {
+            await _contactRepository.UpdateContactInfoAsync(new BaseUserInfo()
+            {
+                UserId = @event.Id,
+                Avatar = @event.Avatar,
+                Company = @event.Company,
+                Name = @event.Name,
+                Phone = @event.Phone,
+                Title = @event.Title
+            });
         }
     }
 }

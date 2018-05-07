@@ -9,10 +9,9 @@ namespace Contact.API.Repository
         /// <summary>
         /// 更新好友基本信息
         /// </summary>
-        /// <param name="userId"></param>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task UpdateContactInfoAsync(int userId, BaseUserInfo info);
+        Task UpdateContactInfoAsync(BaseUserInfo info);
 
         Task AddContactFriendAsync(int userId, Data.Contact contact);
 

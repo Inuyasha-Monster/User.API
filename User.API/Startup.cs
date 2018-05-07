@@ -46,7 +46,8 @@ namespace User.API
             services.AddCap(options =>
             {
                 options.UseEntityFramework<UserDbContext>();
-                options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+                //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+                options.UseRabbitMQ("localhost");
 
                 // 注册 Dashboard
                 options.UseDashboard();
@@ -112,6 +113,8 @@ namespace User.API
             });
 
             app.UseCap();
+
+            app.UseAuthentication();
 
             app.UseMvc();
 

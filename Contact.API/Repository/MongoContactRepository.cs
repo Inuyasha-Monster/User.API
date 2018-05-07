@@ -21,31 +21,49 @@ namespace Contact.API.Repository
             _logger = logger;
         }
 
-        public async Task UpdateContactInfoAsync(int userId, BaseUserInfo info)
+        public async Task UpdateContactInfoAsync(BaseUserInfo info)
         {
-            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
-            if (book == null)
-            {
-                book = new ContactBook() { UserId = userId };
-                await _dbContext.ContactCollection.InsertOneAsync(book);
-            }
+            //var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
+            //if (book == null)
+            //{
+            //    book = new ContactBook() { UserId = userId };
+            //    await _dbContext.ContactCollection.InsertOneAsync(book);
+            //}
 
-            if (book.Contacts != null && book.Contacts.Any() &&
-                book.Contacts.Select(x => x.UserId).Contains(info.UserId))
-            {
-                FilterDefinition<ContactBook> filterDefinition = new ExpressionFilterDefinition<ContactBook>(x => x.Contacts.Select(c => c.UserId).Contains(info.UserId));
+            //if (book.Contacts != null && book.Contacts.Any() &&
+            //    book.Contacts.Select(x => x.UserId).Contains(info.UserId))
+            //{
 
-                UpdateDefinition<ContactBook> updateDefinition = new BsonDocumentUpdateDefinition<ContactBook>(new BsonDocument(new Dictionary<string, string>()
-                {
-                    {"ContactBook.$.Name",info.Name },
-                    {"ContactBook.$.Avatar",info.Avatar },
-                    {"ContactBook.$.Company",info.Company },
-                    {"ContactBook.$.Title",info.Title }
-                }));
+            //FilterDefinition<ContactBook> filterDefinition = new ExpressionFilterDefinition<ContactBook>(x => x.Contacts.Select(c => c.UserId).Contains(info.UserId));
 
-                var updateResult = await _dbContext.ContactCollection.UpdateManyAsync(filterDefinition, updateDefinition);
-                _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
-            }
+            //var filterDefinition = Builders<ContactBook>.Filter
+
+            //UpdateDefinition<ContactBook> updateDefinition = new BsonDocumentUpdateDefinition<ContactBook>(new BsonDocument(new Dictionary<string, string>()
+            //    {
+            //        {"ContactBook.$.Name",info.Name },
+            //        {"ContactBook.$.Avatar",info.Avatar },
+            //        {"ContactBook.$.Company",info.Company },
+            //        {"ContactBook.$.Title",info.Title },
+            //        {"ContactBook.$.Phone",info.Phone }
+            //    }));
+
+            //var filterDefinition = Builders<ContactBook>.Filter.Eq("Contacts.$.UserId", info.UserId);
+
+            var filterDefinition =
+                Builders<ContactBook>.Filter.Where(x => x.Contacts.Any(c => c.UserId == info.UserId));
+
+            var updateDefinition = Builders<ContactBook>.Update
+                .Set(x=>x.Contacts[-1].Name, info.Name)
+                .Set(x => x.Contacts[-1].Company, info.Company)
+                .Set(x => x.Contacts[-1].Avatar, info.Avatar)
+                .Set(x => x.Contacts[-1].Phone, info.Phone)
+                .Set(x => x.Contacts[-1].Title, info.Title);
+
+            var updateResult = await _dbContext.ContactCollection.UpdateManyAsync(filterDefinition, updateDefinition);
+
+            _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
+
+            //}
         }
 
         public async Task AddContactFriendAsync(int userId, Data.Contact contact)

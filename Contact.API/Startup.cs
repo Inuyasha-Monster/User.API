@@ -81,6 +81,23 @@ namespace Contact.API
 
             services.AddLogging(x => x.AddConsole());
 
+            services.AddCap(options =>
+            {
+                options.UseMySql(Configuration.GetConnectionString("UserMysqlLocal"));
+                //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+                options.UseRabbitMQ("localhost");
+                options.UseDashboard();
+                options.UseDiscovery(d =>
+                {
+                    d.DiscoveryServerHostName = "localhost";
+                    d.DiscoveryServerPort = 8500;
+                    d.CurrentNodeHostName = "localhost";
+                    d.CurrentNodePort = 58564;
+                    d.NodeId = 2;
+                    d.NodeName = "CAP No.2 Node Contact.API";
+                });
+            });
+
             services.AddMvc();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -107,6 +124,8 @@ namespace Contact.API
             }
 
             loggerFactory.AddConsole(LogLevel.Trace);
+
+            app.UseCap();
 
             app.UseAuthentication();
 
