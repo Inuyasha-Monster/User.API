@@ -23,20 +23,29 @@ namespace Contact.API.Repository
 
         public async Task UpdateContactInfoAsync(int userId, BaseUserInfo info)
         {
-            var book = await _dbContext.ContactCollection.FindAsync(x => x.UserId == userId);
-            if (book == null) throw new UserContextException();
-            FilterDefinition<ContactBook> filterDefinition = new ExpressionFilterDefinition<ContactBook>(x => x.Contacts.Select(c => c.UserId).Contains(info.UserId));
-
-            UpdateDefinition<ContactBook> updateDefinition = new BsonDocumentUpdateDefinition<ContactBook>(new BsonDocument(new Dictionary<string, string>()
+            var book = await _dbContext.ContactCollection.FindSync(x => x.UserId == userId).FirstOrDefaultAsync();
+            if (book == null)
             {
-                {"ContactBook.$.Name",info.Name },
-                {"ContactBook.$.Avatar",info.Avatar },
-                {"ContactBook.$.Company",info.Company },
-                {"ContactBook.$.Title",info.Title }
-            }));
+                book = new ContactBook() { UserId = userId };
+                await _dbContext.ContactCollection.InsertOneAsync(book);
+            }
 
-            var updateResult = await _dbContext.ContactCollection.UpdateManyAsync(filterDefinition, updateDefinition);
-            _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
+            if (book.Contacts != null && book.Contacts.Any() &&
+                book.Contacts.Select(x => x.UserId).Contains(info.UserId))
+            {
+                FilterDefinition<ContactBook> filterDefinition = new ExpressionFilterDefinition<ContactBook>(x => x.Contacts.Select(c => c.UserId).Contains(info.UserId));
+
+                UpdateDefinition<ContactBook> updateDefinition = new BsonDocumentUpdateDefinition<ContactBook>(new BsonDocument(new Dictionary<string, string>()
+                {
+                    {"ContactBook.$.Name",info.Name },
+                    {"ContactBook.$.Avatar",info.Avatar },
+                    {"ContactBook.$.Company",info.Company },
+                    {"ContactBook.$.Title",info.Title }
+                }));
+
+                var updateResult = await _dbContext.ContactCollection.UpdateManyAsync(filterDefinition, updateDefinition);
+                _logger.LogInformation($"{nameof(updateResult.MatchedCount)} {updateResult.MatchedCount},{nameof(updateResult.ModifiedCount)} {updateResult.ModifiedCount}");
+            }
         }
 
         public async Task AddContactFriendAsync(int userId, Data.Contact contact)

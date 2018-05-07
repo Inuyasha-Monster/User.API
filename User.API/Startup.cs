@@ -43,6 +43,26 @@ namespace User.API
 
             });
 
+            services.AddCap(options =>
+            {
+                options.UseEntityFramework<UserDbContext>();
+                options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+
+                // 注册 Dashboard
+                options.UseDashboard();
+
+                // 注册节点到 Consul
+                options.UseDiscovery(d =>
+                {
+                    d.DiscoveryServerHostName = "localhost";
+                    d.DiscoveryServerPort = 8500;
+                    d.CurrentNodeHostName = "localhost";
+                    d.CurrentNodePort = 5000;
+                    d.NodeId = 1;
+                    d.NodeName = "CAP No.1 Node User.API";
+                });
+            });
+
             services.AddOptions();
             services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
 
@@ -90,6 +110,8 @@ namespace User.API
             {
                 DeRegisterService(app, options, consulClient);
             });
+
+            app.UseCap();
 
             app.UseMvc();
 

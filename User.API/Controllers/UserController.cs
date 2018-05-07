@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCore.CAP;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using User.API.Data;
 using User.API.Dtos;
+using User.API.IntergrationEvents;
 using User.API.Models;
 
 namespace User.API.Controllers
@@ -18,11 +20,34 @@ namespace User.API.Controllers
     {
         private readonly UserDbContext _dbContext;
         private readonly ILogger<UserController> _logger;
+        private readonly ICapPublisher _capPublisher;
 
-        public UserController(UserDbContext dbContext, ILogger<UserController> logger)
+        public UserController(UserDbContext dbContext, ILogger<UserController> logger, ICapPublisher capPublisher)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _capPublisher = capPublisher;
+        }
+
+        private async Task RasieUserInfoChangedEventAsyncTask(AppUser user)
+        {
+            if (_dbContext.Entry(user).Property(x => x.Name).IsModified ||
+                _dbContext.Entry(user).Property(x => x.Company).IsModified ||
+                _dbContext.Entry(user).Property(x => x.Title).IsModified ||
+                _dbContext.Entry(user).Property(x => x.Phone).IsModified ||
+                _dbContext.Entry(user).Property(x => x.Avatar).IsModified)
+            {
+                var @event = new AppUserInfoChangedEvent()
+                {
+                    Avatar = user.Avatar,
+                    Company = user.Company,
+                    Id = user.Id,
+                    Name = user.Name,
+                    Phone = user.Phone,
+                    Title = user.Title
+                };
+                await _capPublisher.PublishAsync<AppUserInfoChangedEvent>("userapi.userinfochanged", @event);
+            }
         }
 
         // GET api/values
@@ -66,9 +91,18 @@ namespace User.API.Controllers
             _dbContext.RemoveRange(removeRang);
 
             var addRang = allPros.Except(originPros);
-            await _dbContext.AddRangeAsync(addRang);
 
-            await _dbContext.SaveChangesAsync();
+            using (var trans = await _dbContext.Database.BeginTransactionAsync())
+            {
+                await RasieUserInfoChangedEventAsyncTask(user);
+
+                await _dbContext.AddRangeAsync(addRang);
+
+                await _dbContext.SaveChangesAsync();
+
+                trans.Commit();
+            }
+
             return Json(user);
         }
 

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotNetCore.CAP;
+using DotNetCore.CAP.MySql;
 using FluentAssertions;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +43,8 @@ namespace User.API.UnitTests
             var dbContext = GetUserDbContext();
             var loggerMock = new Mock<ILogger<UserController>>();
             var logger = loggerMock.Object;
-            var controler = new UserController(dbContext, logger);
+            var publisher = new Mock<ICapPublisher>().Object;
+            var controler = new UserController(dbContext, logger, publisher);
             var result = controler.Get().Result;
             //Assert.IsType<JsonResult>(result);
 
@@ -57,7 +60,8 @@ namespace User.API.UnitTests
             var dbContext = GetUserDbContext();
             var loggerMock = new Mock<ILogger<UserController>>();
             var logger = loggerMock.Object;
-            var controler = new UserController(dbContext, logger);
+            var publisher = new Mock<ICapPublisher>().Object;
+            var controler = new UserController(dbContext, logger, publisher);
             var doc = new JsonPatchDocument<AppUser>();
             doc.Replace(x => x.Name, "djl");
             var reponse = controler.Patch(doc);
@@ -76,7 +80,8 @@ namespace User.API.UnitTests
             var dbContext = GetUserDbContext();
             var loggerMock = new Mock<ILogger<UserController>>();
             var logger = loggerMock.Object;
-            var controler = new UserController(dbContext, logger);
+            var publisher = new Mock<ICapPublisher>().Object;
+            var controler = new UserController(dbContext, logger, publisher);
             var doc = new JsonPatchDocument<AppUser>();
             doc.Replace(x => x.Properties, new List<AppUserProperty>()
             {
@@ -106,7 +111,8 @@ namespace User.API.UnitTests
             var dbContext = GetUserDbContext();
             var loggerMock = new Mock<ILogger<UserController>>();
             var logger = loggerMock.Object;
-            var controler = new UserController(dbContext, logger);
+            var publisher = new Mock<ICapPublisher>().Object;
+            var controler = new UserController(dbContext, logger, publisher);
             var doc = new JsonPatchDocument<AppUser>();
             doc.Replace(x => x.Properties, new List<AppUserProperty>());
             var reponse = controler.Patch(doc);
