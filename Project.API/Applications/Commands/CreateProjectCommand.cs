@@ -2,7 +2,7 @@
 
 namespace Project.API.Applications.Commands
 {
-    public class CreateProjectCommand : IRequest<Domain.AggregatesModel.Project>
+    public class CreateProjectCommand : IRequest
     {
         public Domain.AggregatesModel.Project Project { get; set; }
     }

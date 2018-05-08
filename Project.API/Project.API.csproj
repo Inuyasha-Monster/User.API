@@ -14,6 +14,7 @@
     <PackageReference Include="MediatR" Version="4.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Project.Domain\Project.Domain.csproj" />
+    <ProjectReference Include="..\Project.Infrastructure\Project.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

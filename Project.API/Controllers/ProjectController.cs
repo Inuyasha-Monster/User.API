@@ -25,8 +25,8 @@ namespace Project.API.Controllers
         public async Task<IActionResult> AddProject([FromBody]Domain.AggregatesModel.Project project)
         {
             var cmd = new CreateProjectCommand() { Project = project };
-            var projectResult = await _mediator.Send(cmd);
-            return Ok(projectResult);
+            await _mediator.Send(cmd);
+            return Ok();
         }
 
         [HttpPut]

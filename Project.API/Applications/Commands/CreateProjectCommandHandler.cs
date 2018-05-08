@@ -5,7 +5,7 @@ using Project.Domain.AggregatesModel;
 
 namespace Project.API.Applications.Commands
 {
-    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Domain.AggregatesModel.Project>
+    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand>
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -14,11 +14,10 @@ namespace Project.API.Applications.Commands
             _projectRepository = projectRepository;
         }
 
-        public async Task<Domain.AggregatesModel.Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
-            var project = await _projectRepository.AddAsync(request.Project);
+            await _projectRepository.AddAsync(request.Project);
             await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-            return project;
         }
     }
 }
