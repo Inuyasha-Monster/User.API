@@ -1,7 +1,10 @@
-﻿namespace Project.API.Applications.Commands
+﻿using MediatR;
+using Project.Domain.AggregatesModel;
+
+namespace Project.API.Applications.Commands
 {
-    public class ViewProjectCommand
+    public class ViewProjectCommand: IRequest<Domain.AggregatesModel.Project>
     {
-        
+        public ProjectViewer ProjectViewer { get; set; }
     }
 }
