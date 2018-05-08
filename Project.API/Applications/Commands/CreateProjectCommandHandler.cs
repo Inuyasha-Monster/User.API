@@ -17,7 +17,7 @@ namespace Project.API.Applications.Commands
         public async Task<Domain.AggregatesModel.Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.AddAsync(request.Project);
-            await _projectRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
             return project;
         }
     }

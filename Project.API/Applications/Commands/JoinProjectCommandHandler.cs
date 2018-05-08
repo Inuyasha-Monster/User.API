@@ -23,7 +23,7 @@ namespace Project.API.Applications.Commands
             var project = await _projectRepository.GetAsync(request.ProjectContributor.ProjectId);
             if (project == null) throw new ProjectDomainException($"project not find with projectId:{request.ProjectContributor.ProjectId}");
             project.ProjectContributors.Add(request.ProjectContributor);
-            await _projectRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }
