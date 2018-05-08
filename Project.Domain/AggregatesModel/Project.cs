@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Domain.Events;
 using Project.Domain.SeedWork;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -155,23 +156,34 @@ namespace Project.Domain.AggregatesModel
             return newProject;
         }
 
+        public Project()
+        {
+            this.ProjectContributors = new List<ProjectContributor>();
+            this.ProjectPropetries = new List<ProjectPropetry>();
+            this.ProjectViewers = new List<ProjectViewer>();
+            AddDomainEvent(new ProjectCreatedEvent() { Project = this });
+        }
+
         public void AddViewer(string userName, string avator, int userid)
         {
             if (ProjectViewers.Any(x => x.UserId == userid)) return;
-            ProjectViewers.Add(new ProjectViewer()
+            var item = new ProjectViewer()
             {
                 Avator = avator,
                 CreateTime = DateTime.Now,
                 ProjectId = Id,
                 UserName = userName,
                 UserId = userid
-            });
+            };
+            ProjectViewers.Add(item);
+            AddDomainEvent(new ProejctViewedEvent() { ProjectViewer = item });
         }
 
         public void AddContributor(ProjectContributor contributor)
         {
             if (ProjectContributors.Any(x => x.UserId == contributor.UserId)) return;
             ProjectContributors.Add(contributor);
+            AddDomainEvent(new ProjectJoinedEvent() { ProjectContributor = contributor });
         }
     }
 }
