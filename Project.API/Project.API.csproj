@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Applications\Queries\" />
-    <Folder Include="Applications\Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
