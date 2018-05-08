@@ -5,16 +5,16 @@ using Project.Domain.AggregatesModel;
 
 namespace Project.API.Applications.Commands
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Domain.AggregatesModel.Project>
+    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Domain.AggregatesModel.Project>
     {
         private readonly IProjectRepository _projectRepository;
 
-        public CreateOrderCommandHandler(IProjectRepository projectRepository)
+        public CreateProjectCommandHandler(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
         }
 
-        public async Task<Domain.AggregatesModel.Project> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        public async Task<Domain.AggregatesModel.Project> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.AddAsync(request.Project);
             await _projectRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
