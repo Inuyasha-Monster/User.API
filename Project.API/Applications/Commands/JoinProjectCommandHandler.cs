@@ -9,7 +9,7 @@ using Project.Domain.Exceptions;
 
 namespace Project.API.Applications.Commands
 {
-    public class JoinProjectCommandHandler : IRequestHandler<JoinProjectCommand, Domain.AggregatesModel.Project>
+    public class JoinProjectCommandHandler : IRequestHandler<JoinProjectCommand>
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -18,13 +18,12 @@ namespace Project.API.Applications.Commands
             _projectRepository = projectRepository;
         }
 
-        public async Task<Domain.AggregatesModel.Project> Handle(JoinProjectCommand request, CancellationToken cancellationToken)
+        public async Task Handle(JoinProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.GetAsync(request.ProjectContributor.ProjectId);
             if (project == null) throw new ProjectDomainException($"project not find with projectId:{request.ProjectContributor.ProjectId}");
             project.ProjectContributors.Add(request.ProjectContributor);
             await _projectRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return project;
         }
     }
 }

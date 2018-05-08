@@ -5,10 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Project.Domain.AggregatesModel;
+using Project.Domain.Exceptions;
 
 namespace Project.API.Applications.Commands
 {
-    public class ViewProjectCommandHandler : IRequestHandler<ViewProjectCommand, Domain.AggregatesModel.Project>
+    public class ViewProjectCommandHandler : IRequestHandler<ViewProjectCommand>
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -17,12 +18,12 @@ namespace Project.API.Applications.Commands
             _projectRepository = projectRepository;
         }
 
-        public async Task<Domain.AggregatesModel.Project> Handle(ViewProjectCommand request, CancellationToken cancellationToken)
+        public async Task Handle(ViewProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.GetAsync(request.ProjectViewer.ProjectId);
+            if (project == null) throw new ProjectDomainException($"project not find with ptojectId:{request.ProjectViewer.ProjectId}");
             project.ProjectViewers.Add(request.ProjectViewer);
             await _projectRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return project;
         }
     }
 }
