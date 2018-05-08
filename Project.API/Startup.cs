@@ -33,7 +33,7 @@ namespace Project.API
 
                 builder.UseMySQL(Configuration.GetConnectionString("UserMysqlLocal"), x =>
                 {
-                    x.MigrationsAssembly(typeof(ProjectDbContext).GetTypeInfo().Assembly.GetName().Name);
+                    x.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                 });
 
                 //builder.UseMySQL(Configuration.GetConnectionString("UserMysql"));
