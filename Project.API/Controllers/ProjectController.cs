@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.API.Applications.Commands;
+using Project.API.Applications.Queries;
 using Project.API.Applications.Services;
 using Project.Domain.AggregatesModel;
 
@@ -15,12 +16,48 @@ namespace Project.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ICommandService _commandService;
+        private readonly IProjectQueries _projectQueries;
 
 
-        public ProjectController(IMediator mediator, ICommandService commandService)
+        public ProjectController(IMediator mediator, ICommandService commandService, IProjectQueries projectQueries)
         {
             _mediator = mediator;
             _commandService = commandService;
+            _projectQueries = projectQueries;
+        }
+
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> GetProjectListByUserId(int userId)
+        {
+            var result = await _projectQueries.GetProjectListByUserIdAsync(userId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("my")]
+        public async Task<IActionResult> GetMyProjectList()
+        {
+            var result = await _projectQueries.GetProjectListByUserIdAsync(UserIdentity.CurrentUserId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("detail/{projectId}")]
+        public async Task<IActionResult> GetProjectDetail(int projectId)
+        {
+            var result = await _projectQueries.GetProjectDetailAsync(projectId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("recommand/{projectId}")]
+        public async Task<IActionResult> RecommandProjectDetail(int projectId)
+        {
+            var b = await _commandService.IsRecommandProject(projectId, UserIdentity.CurrentUserId);
+            if (!b) return BadRequest("无权查看此项目");
+            var o = await _projectQueries.GetProjectDetailAsync(projectId);
+            return Ok(o);
         }
 
         [HttpPost]
