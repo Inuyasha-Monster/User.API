@@ -10,6 +10,7 @@ namespace ReCommand.API.EFData
     public class ReCommandDbContext : DbContext
     {
         public DbSet<ProjectReCommand> ProjectReCommands { get; set; }
+        public DbSet<ProjectReferenceUser> ProjectReferenceUsers { get; set; }
 
         public ReCommandDbContext(DbContextOptions<ReCommandDbContext> options) : base(options)
         {
@@ -20,6 +21,10 @@ namespace ReCommand.API.EFData
         {
             modelBuilder.Entity<ProjectReCommand>().ToTable("ProjectReCommands")
                 .HasKey(x => x.Id);
+
+            modelBuilder.Entity<ProjectReferenceUser>().ToTable("ProjectReferenceUsers")
+                .HasKey(x => x.Id);
+
             base.OnModelCreating(modelBuilder);
         }
     }
