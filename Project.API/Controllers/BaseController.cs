@@ -13,15 +13,15 @@ namespace Project.API.Controllers
         {
             get
             {
-                var user = new UserIdentity();
-
-                user.Avatar = User.Claims.First(x => x.Type == "avatar").Value;
-                user.Company = User.Claims.First(x => x.Type == "company").Value;
-                user.Name = User.Claims.First(x => x.Type == "name").Value;
-                user.Phone = User.Claims.First(x => x.Type == "phone").Value;
-                user.Title = User.Claims.First(x => x.Type == "title").Value;
-                user.CurrentUserId = int.Parse(User.Claims.First(x => x.Type == "sub").Value);
-
+                var user = new UserIdentity
+                {
+                    Avatar = User.Claims.First(x => x.Type == "avatar").Value,
+                    Company = User.Claims.First(x => x.Type == "company").Value,
+                    Name = User.Claims.First(x => x.Type == "name").Value,
+                    Phone = User.Claims.First(x => x.Type == "phone").Value,
+                    Title = User.Claims.First(x => x.Type == "title").Value,
+                    CurrentUserId = int.Parse(User.Claims.First(x => x.Type == "sub").Value)
+                };
                 return user;
             }
         }

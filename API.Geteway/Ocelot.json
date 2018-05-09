@@ -10,7 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/users",
-      "UpstreamHttpMethod": [ "Get","Patch" ],
+      "UpstreamHttpMethod": [ "Get", "Patch" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "finbook",
         "AllowedScopes": [ "gateway_userapi" ]
@@ -26,7 +26,7 @@
         }
       ],
       "UpstreamPathTemplate": "/connect/{catchAll}",
-      "UpstreamHttpMethod": [ "Get","Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
       "DownstreamPathTemplate": "/connect/token",
@@ -164,6 +164,22 @@
       ],
       "UpstreamPathTemplate": "/.well-known/{catchAll}",
       "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/project/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 59796
+        }
+      ],
+      "UpstreamPathTemplate": "/project/{catchAll}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_projectapi" ]
+      }
     }
   ],
   "GlobalConfiguration": {

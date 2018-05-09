@@ -47,6 +47,7 @@ namespace Project.API.Controllers
         public async Task<IActionResult> GetProjectDetail(int projectId)
         {
             var result = await _projectQueries.GetProjectDetailAsync(projectId);
+            if (result == null) return NotFound();
             return Ok(result);
         }
 
@@ -57,6 +58,7 @@ namespace Project.API.Controllers
             var b = await _commandService.IsRecommandProject(projectId, UserIdentity.CurrentUserId);
             if (!b) return BadRequest("无权查看此项目");
             var o = await _projectQueries.GetProjectDetailAsync(projectId);
+            if (o == null) return NotFound();
             return Ok(o);
         }
 
