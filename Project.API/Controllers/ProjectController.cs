@@ -8,6 +8,7 @@ using Project.API.Applications.Commands;
 using Project.API.Applications.Queries;
 using Project.API.Applications.Services;
 using Project.Domain.AggregatesModel;
+using Project.Domain.Exceptions;
 
 namespace Project.API.Controllers
 {
@@ -63,10 +64,12 @@ namespace Project.API.Controllers
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("add")]
         public async Task<IActionResult> AddProject([FromBody]Domain.AggregatesModel.Project project)
         {
+            if (project == null) throw new ArgumentNullException(nameof(project));
             var cmd = new CreateProjectCommand() { Project = project };
+            cmd.Project.UserId = UserIdentity.CurrentUserId;
             await _mediator.Send(cmd);
             return Ok();
         }
@@ -98,6 +101,7 @@ namespace Project.API.Controllers
         [Route("join")]
         public async Task<IActionResult> JoinProject([FromBody] ProjectContributor contributor)
         {
+            if (contributor == null) throw new ArgumentNullException(nameof(contributor));
             if (!await _commandService.IsRecommandProject(contributor.ProjectId, UserIdentity.CurrentUserId))
             {
                 return BadRequest("不具有查看当前项目的权限");

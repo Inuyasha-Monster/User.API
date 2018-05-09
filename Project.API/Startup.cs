@@ -16,10 +16,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Project.API.Applications.Queries;
 using Project.API.Applications.Services;
 using Project.API.Options;
+using Project.Domain.AggregatesModel;
 using Project.Infrastructure;
+using Project.Infrastructure.Repositories;
 
 namespace Project.API
 {
@@ -98,7 +101,12 @@ namespace Project.API
 
             services.AddScoped<IProjectQueries>(sp => new ProjectQueries(Configuration.GetConnectionString("UserMysqlLocal"), sp.GetRequiredService<ProjectDbContext>()));
 
-            services.AddMvc();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+
+            services.AddMvc().AddJsonOptions(x =>
+            {
+                x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -22,6 +22,10 @@ namespace Project.API.Applications.Commands
         {
             var project = await _projectRepository.GetAsync(request.ProjectContributor.ProjectId);
             if (project == null) throw new ProjectDomainException($"project not find with projectId:{request.ProjectContributor.ProjectId}");
+            if (project.UserId == request.ProjectContributor.UserId)
+            {
+                throw new ProjectDomainException("you can not join your own project");
+            }
             project.ProjectContributors.Add(request.ProjectContributor);
             await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
