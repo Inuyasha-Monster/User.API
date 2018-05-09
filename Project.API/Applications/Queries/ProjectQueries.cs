@@ -19,15 +19,17 @@ namespace Project.API.Applications.Queries
 
         public async Task<dynamic> GetProjectListByUserIdAsync(int userId)
         {
-            using (var connection = new MySqlConnection(_connection))
-            {
-                await connection.OpenAsync();
-                string sql = @"SELECT a.*
-                                FROM projects as a
-                                WHERE a.UserId = @userId";
-                var objects = await connection.QueryAsync(sql, new { userId });
-                return objects;
-            }
+            //using (var connection = new MySqlConnection(_connection))
+            //{
+            //    await connection.OpenAsync();
+            //    string sql = @"SELECT a.*
+            //                    FROM projects as a
+            //                    WHERE a.UserId = @userId";
+            //    var objects = await connection.QueryAsync(sql, new { userId });
+            //    return objects;
+            //}
+            var project = await _dbContext.Projects.SingleOrDefaultAsync(x => x.UserId == userId);
+            return project;
         }
 
         public async Task<dynamic> GetProjectDetailAsync(int projectId)

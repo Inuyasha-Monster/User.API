@@ -26,7 +26,7 @@ namespace Project.API.Applications.Commands
             {
                 throw new ProjectDomainException("you can not join your own project");
             }
-            project.ProjectContributors.Add(request.ProjectContributor);
+            project.AddContributor(request.ProjectContributor);
             await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }

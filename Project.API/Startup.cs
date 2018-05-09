@@ -52,26 +52,26 @@ namespace Project.API
 
             services.AddMediatR();
 
-            //services.AddCap(options =>
-            //{
-            //    options.UseEntityFramework<ProjectDbContext>();
-            //    //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
-            //    options.UseRabbitMQ("localhost");
+            services.AddCap(options =>
+            {
+                options.UseEntityFramework<ProjectDbContext>();
+                //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+                options.UseRabbitMQ("localhost");
 
-            //    // 注册 Dashboard
-            //    options.UseDashboard();
+                // 注册 Dashboard
+                options.UseDashboard();
 
-            //    // 注册节点到 Consul
-            //    options.UseDiscovery(d =>
-            //    {
-            //        d.DiscoveryServerHostName = "localhost";
-            //        d.DiscoveryServerPort = 8500;
-            //        d.CurrentNodeHostName = "localhost";
-            //        d.CurrentNodePort = 59796;
-            //        d.NodeId = 3;
-            //        d.NodeName = "CAP No.3 Node Project.API";
-            //    });
-            //});
+                // 注册节点到 Consul
+                options.UseDiscovery(d =>
+                {
+                    d.DiscoveryServerHostName = "localhost";
+                    d.DiscoveryServerPort = 8500;
+                    d.CurrentNodeHostName = "localhost";
+                    d.CurrentNodePort = 59796;
+                    d.NodeId = 3;
+                    d.NodeName = "CAP No.3 Node Project.API";
+                });
+            });
 
             services.AddOptions();
             services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
@@ -128,7 +128,7 @@ namespace Project.API
                 DeRegisterService(app, options, consulClient);
             });
 
-            //app.UseCap();
+            app.UseCap();
 
             app.UseAuthentication();
 

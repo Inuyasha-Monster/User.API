@@ -26,7 +26,7 @@ namespace Project.API.Applications.Commands
             {
                 throw new ProjectDomainException("you can not view your own project");
             }
-            project.ProjectViewers.Add(request.ProjectViewer);
+            project.AddViewer(request.ProjectViewer.UserName, request.ProjectViewer.Avator, request.ProjectViewer.UserId);
             await _projectRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
