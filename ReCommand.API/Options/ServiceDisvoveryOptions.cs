@@ -1,8 +1,9 @@
-﻿namespace Contact.API.Options
+﻿namespace ReCommand.API.Options
 {
     public class ServiceDisvoveryOptions
     {
-        public string UserServiceName { get; set; }
+        public string ContactServiceName { get; set; }
+
         public string ServiceName { get; set; }
 
         public ConsulOptions Consul { get; set; }
