@@ -28,6 +28,14 @@ namespace Contact.API.Controllers
             _contactRepository = contactRepository;
         }
 
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<IActionResult> Get(int userId)
+        {
+            var contacts = await _contactRepository.GetAllFriendListAsync(userId);
+            return Json(contacts);
+        }
+
         /// <summary>
         /// 获取好友申请列表
         /// </summary>

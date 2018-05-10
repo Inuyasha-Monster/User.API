@@ -12,32 +12,37 @@ namespace ReCommand.API.IntergationEventHandlers
     {
         private readonly ReCommandDbContext _dbContext;
         private readonly IUserService _userService;
+        private readonly IContactService _contactService;
 
-        public ProjectCreatedIntergrationEventHandler(ReCommandDbContext dbContext, IUserService userService)
+        public ProjectCreatedIntergrationEventHandler(ReCommandDbContext dbContext, IUserService userService, IContactService contactService)
         {
             _dbContext = dbContext;
             _userService = userService;
+            _contactService = contactService;
         }
 
         [CapSubscribe("projectapi.projectcreated")]
         public async Task Process(ProjectCreatedIntergrationEvent @event)
         {
             var info = await _userService.GetBaseUserInfoAsync(@event.UserId);
-
-            var projectRecommand = new ProjectReCommand()
+            var contacts = await _contactService.GetContactListByUserIdAsync(@event.UserId);
+            foreach (var contact in contacts)
             {
-                FromUserId = @event.UserId,
-                Company = @event.Company,
-                ProjectId = @event.ProjectId,
-                Introduction = @event.Introduction,
-                FromUserAvator = info.Avatar,
-                EnumReCommandType = EnumReCommandType.SecondFriedn,
-                FromUserName = info.Name,
-                CreateTime = @event.CreationDate,
-                ReCommandTime = DateTime.Now
-            };
-
-            await _dbContext.ProjectReCommands.AddAsync(projectRecommand);
+                var projectRecommand = new ProjectReCommand()
+                {
+                    FromUserId = @event.UserId,
+                    Company = @event.Company,
+                    ProjectId = @event.ProjectId,
+                    Introduction = @event.Introduction,
+                    FromUserAvator = info.Avatar,
+                    EnumReCommandType = EnumReCommandType.SecondFriedn,
+                    FromUserName = info.Name,
+                    CreateTime = @event.CreationDate,
+                    ReCommandTime = DateTime.Now,
+                    UserId = contact.UserId
+                };
+                await _dbContext.ProjectReCommands.AddAsync(projectRecommand);
+            }
             await _dbContext.SaveChangesAsync();
         }
     }
