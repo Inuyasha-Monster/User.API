@@ -5,7 +5,7 @@ using ReCommand.API.IntergationEvents;
 
 namespace ReCommand.API.IntergationEventHandlers
 {
-    public class ProjectJoinedIntergrationEventHandler : ICapSubscribe
+    public class ProjectJoinedIntergrationEventHandler //: ICapSubscribe
     {
         private readonly ReCommandDbContext _dbContext;
 

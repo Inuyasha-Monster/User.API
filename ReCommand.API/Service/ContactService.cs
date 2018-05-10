@@ -33,7 +33,7 @@ namespace ReCommand.API.Service
             List<Dtos.Contact> contacts = null;
             try
             {
-                var reponse = await _httpClient.GetStringAsync($"{_contactServiceUrl}/api/get/{userId}");
+                var reponse = await _httpClient.GetStringAsync($"{_contactServiceUrl}/api/contact/{userId}");
                 if (!string.IsNullOrWhiteSpace(reponse))
                 {
                     contacts = JsonConvert.DeserializeObject<List<Dtos.Contact>>(reponse);

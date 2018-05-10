@@ -180,6 +180,22 @@
         "AuthenticationProviderKey": "finbook",
         "AllowedScopes": [ "gateway_projectapi" ]
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/recommand/{catchAll}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 58809
+        }
+      ],
+      "UpstreamPathTemplate": "/recommand/{catchAll}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "finbook",
+        "AllowedScopes": [ "gateway_recommandapi" ]
+      }
     }
   ],
   "GlobalConfiguration": {

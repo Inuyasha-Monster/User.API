@@ -25,7 +25,8 @@ namespace User.Identity
                 new ApiResource("gateway_api","gateway api service"),
                 new ApiResource("gateway_userapi","user service"),
                 new ApiResource("gateway_contactapi","contact service"),
-                new ApiResource("gateway_projectapi","project service")
+                new ApiResource("gateway_projectapi","project service"),
+                new ApiResource("gateway_recommandapi","recommand service")
             };
         }
 
@@ -55,6 +56,7 @@ namespace User.Identity
                         "gateway_userapi",
                         "gateway_contactapi",
                         "gateway_projectapi",
+                        "gateway_recommandapi",
                         IdentityServerConstants.StandardScopes.OfflineAccess
                     }
                 }

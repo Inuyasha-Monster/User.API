@@ -8,7 +8,7 @@ using ReCommand.API.Service;
 
 namespace ReCommand.API.IntergationEventHandlers
 {
-    public class ProjectCreatedIntergrationEventHandler : ICapSubscribe
+    public class ProjectCreatedIntergrationEventHandler //: ICapSubscribe
     {
         private readonly ReCommandDbContext _dbContext;
         private readonly IUserService _userService;

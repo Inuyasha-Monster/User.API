@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Consul;
 using Contact.API.Infrastructure;
 using DnsClient;
+using DotNetCore.CAP;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,33 +53,6 @@ namespace ReCommand.API
                 //builder.UseMySQL(Configuration.GetConnectionString("UserMysql"));
             });
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IContactService, ContactService>();
-
-            services.AddScoped<ProjectCreatedIntergrationEventHandler>();
-
-
-            services.AddCap(options =>
-            {
-                options.UseEntityFramework<ReCommandDbContext>();
-                //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
-                options.UseRabbitMQ("localhost");
-
-                // 注册 Dashboard
-                options.UseDashboard();
-
-                // 注册节点到 Consul
-                options.UseDiscovery(d =>
-                {
-                    d.DiscoveryServerHostName = "localhost";
-                    d.DiscoveryServerPort = 8500;
-                    d.CurrentNodeHostName = "localhost";
-                    d.CurrentNodePort = 58809;
-                    d.NodeId = 4;
-                    d.NodeName = "CAP No.4 Node ReCommand.API";
-                });
-            });
-
             services.AddOptions();
             services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
 
@@ -118,6 +92,13 @@ namespace ReCommand.API
                 return resilienceClientFactory.GetResilientHttpClient();
             });
 
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IContactService, ContactService>();
+
+            //services.AddTransient<ProjectCreatedIntergrationEventHandler>();
+
+           
          
             services.AddMvc().AddJsonOptions(x =>
             {
@@ -137,6 +118,27 @@ namespace ReCommand.API
                     options.Audience = "gateway_recommandapi";
                     options.RequireHttpsMetadata = false;
                 });
+
+            services.AddCap(options =>
+            {
+                options.UseEntityFramework<ReCommandDbContext>();
+                //options.UseRabbitMQ(Configuration.GetConnectionString("RabbitMq"));
+                options.UseRabbitMQ("localhost");
+
+                // 注册 Dashboard
+                options.UseDashboard();
+
+                // 注册节点到 Consul
+                options.UseDiscovery(d =>
+                {
+                    d.DiscoveryServerHostName = "localhost";
+                    d.DiscoveryServerPort = 8500;
+                    d.CurrentNodeHostName = "localhost";
+                    d.CurrentNodePort = 58809;
+                    d.NodeId = 4;
+                    d.NodeName = "CAP No.4 Node ReCommand.API";
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
