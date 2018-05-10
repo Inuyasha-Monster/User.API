@@ -21,7 +21,7 @@ namespace ReCommand.API.Service
         {
             _httpClient = httpClient;
             _logger = logger;
-            var result = dnsQuery.ResolveService("service.consul", options.Value.ServiceName);
+            var result = dnsQuery.ResolveService("service.consul", options.Value.UserServiceName);
             var addressList = result.First().AddressList;
             var address = addressList.Any() ? addressList.First().ToString() : result.First().HostName;
             var port = result.First().Port;
