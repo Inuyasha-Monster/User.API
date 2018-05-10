@@ -35,7 +35,7 @@ namespace ReCommand.API.IntergationEventHandlers
                     ProjectId = @event.ProjectId,
                     Introduction = @event.Introduction,
                     FromUserAvator = info.Avatar,
-                    EnumReCommandType = EnumReCommandType.SecondFriedn,
+                    EnumReCommandType = EnumReCommandType.Friend,
                     FromUserName = info.Name,
                     CreateTime = @event.CreationDate,
                     ReCommandTime = DateTime.Now,

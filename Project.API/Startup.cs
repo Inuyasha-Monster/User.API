@@ -50,7 +50,40 @@ namespace Project.API
                 //builder.UseMySQL(Configuration.GetConnectionString("UserMysql"));
             });
 
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "http://localhost:4000";
+                    options.Audience = "gateway_projectapi";
+                    options.RequireHttpsMetadata = false;
+                });
+
+            services.AddOptions();
+            services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
+
+            services.AddSingleton<IConsulClient>(p => new ConsulClient(cfg =>
+            {
+                var serviceConfiguration = p.GetRequiredService<IOptions<ServiceDisvoveryOptions>>().Value;
+
+                if (!string.IsNullOrEmpty(serviceConfiguration.Consul.HttpEndpoint))
+                {
+                    // if not configured, the client will use the default value "127.0.0.1:8500"
+                    cfg.Address = new Uri(serviceConfiguration.Consul.HttpEndpoint);
+                }
+            }));
+
+
             services.AddMediatR();
+
+
+            services.AddScoped<ICommandService, TestCommandService>();
+
+            services.AddScoped<IProjectQueries>(sp => new ProjectQueries(Configuration.GetConnectionString("UserMysqlLocal"), sp.GetRequiredService<ProjectDbContext>()));
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             services.AddCap(options =>
             {
@@ -72,36 +105,6 @@ namespace Project.API
                     d.NodeName = "CAP No.3 Node Project.API";
                 });
             });
-
-            services.AddOptions();
-            services.Configure<ServiceDisvoveryOptions>(Configuration.GetSection("ServiceDiscovery"));
-
-            services.AddSingleton<IConsulClient>(p => new ConsulClient(cfg =>
-            {
-                var serviceConfiguration = p.GetRequiredService<IOptions<ServiceDisvoveryOptions>>().Value;
-
-                if (!string.IsNullOrEmpty(serviceConfiguration.Consul.HttpEndpoint))
-                {
-                    // if not configured, the client will use the default value "127.0.0.1:8500"
-                    cfg.Address = new Uri(serviceConfiguration.Consul.HttpEndpoint);
-                }
-            }));
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = "http://localhost:4000";
-                    options.Audience = "gateway_projectapi";
-                    options.RequireHttpsMetadata = false;
-                });
-
-            services.AddScoped<ICommandService, TestCommandService>();
-
-            services.AddScoped<IProjectQueries>(sp => new ProjectQueries(Configuration.GetConnectionString("UserMysqlLocal"), sp.GetRequiredService<ProjectDbContext>()));
-
-            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             services.AddMvc().AddJsonOptions(x =>
             {

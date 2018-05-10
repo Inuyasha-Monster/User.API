@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using ReCommand.API.EFData;
+using ReCommand.API.IntergationEventHandlers;
 using ReCommand.API.Options;
 using ReCommand.API.Service;
 using Resilience.Http;
@@ -50,6 +51,12 @@ namespace ReCommand.API
 
                 //builder.UseMySQL(Configuration.GetConnectionString("UserMysql"));
             });
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IContactService, ContactService>();
+
+            services.AddScoped<ProjectCreatedIntergrationEventHandler>();
+
 
             services.AddCap(options =>
             {
@@ -111,10 +118,7 @@ namespace ReCommand.API
                 return resilienceClientFactory.GetResilientHttpClient();
             });
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IContactService, ContactService>();
-
-
+         
             services.AddMvc().AddJsonOptions(x =>
             {
                 x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
