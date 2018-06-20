@@ -39,13 +39,13 @@ namespace TestConsulApi1
             {
                 var consulClient = new ConsulClient(x =>
                 {
-                    x.Address = new Uri("http://localhost:8500");
+                    x.Address = new Uri("http://192.168.182.131:8500");
                 });
 
                 var check = new AgentServiceCheck()
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-                    HTTP = "http://localhost:5000/api/heathcheck",
+                    HTTP = "http://192.168.182.131:5000/api/heathcheck",
                     Interval = TimeSpan.FromSeconds(10)
                 };
 
@@ -66,7 +66,7 @@ namespace TestConsulApi1
             {
                 var consulClient = new ConsulClient(x =>
                 {
-                    x.Address = new Uri("http://localhost:8500");
+                    x.Address = new Uri("http://192.168.182.131:8500");
                 });
 
                 consulClient.Agent.ServiceDeregister("api1").Wait();

@@ -19,7 +19,7 @@ namespace TestConsulApi1
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://localhost:5000")
+                .UseUrls("http://192.168.182.131:5000")
                 .UseStartup<Startup>()
                 .Build();
     }

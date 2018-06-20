@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using DnsClient;
 
 namespace TestDnsClient
@@ -23,7 +24,13 @@ namespace TestDnsClient
 
                 var port = result.First().Port;
 
-                Console.WriteLine($"consul地址: {address}:{port}");
+                Console.WriteLine($"consul服务发现的api地址: {address}:{port}");
+
+                HttpClient client = new HttpClient();
+
+                var str = client.GetStringAsync($"{address}:{port}/api/values").Result;
+
+                Console.WriteLine($"api服务返回字符串结果->> {str}");
             }
             catch (Exception e)
             {
