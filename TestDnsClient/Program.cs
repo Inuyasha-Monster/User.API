@@ -13,22 +13,32 @@ namespace TestDnsClient
             Console.WriteLine("Hello World!");
             try
             {
-                IDnsQuery dnsQuery = new LookupClient(IPAddress.Parse("127.0.0.1"), 8600);
+                Console.WriteLine($"请输入consul server地址用于测试，默认 192.168.182.131");
+
+                var inputStr = Console.ReadLine();
+
+                var input = string.IsNullOrWhiteSpace(inputStr) ? "192.168.182.131" : inputStr;
+
+                IDnsQuery dnsQuery = new LookupClient(IPAddress.Parse("192.168.182.131"), 8600);
                 var result = dnsQuery.ResolveService("service.consul", "api");
 
-                var first = result.First();
+                var first = result.OrderBy(x => Guid.NewGuid()).First();
 
                 var addressList = first.AddressList;
 
                 var address = addressList.Any() ? addressList.First().ToString() : first.HostName;
 
-                var port = result.First().Port;
+                var port = first.Port;
 
                 Console.WriteLine($"consul服务发现的api地址: {address}:{port}");
 
                 HttpClient client = new HttpClient();
 
-                var str = client.GetStringAsync($"{address}:{port}/api/values").Result;
+                Console.WriteLine($"请求地址: http://{address}:{port}/api/values");
+
+                address = address.Replace(".", "");
+
+                var str = client.GetStringAsync($"http://{address}:{port}/api/values").Result;
 
                 Console.WriteLine($"api服务返回字符串结果->> {str}");
             }

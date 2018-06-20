@@ -19,7 +19,7 @@ namespace TestConsulApi2
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://192.168.182.131:6000")
+                .UseUrls("http://0.0.0.0:50001")
                 .UseStartup<Startup>()
                 .Build();
     }

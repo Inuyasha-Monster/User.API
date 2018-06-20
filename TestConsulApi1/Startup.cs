@@ -45,7 +45,7 @@ namespace TestConsulApi1
                 var check = new AgentServiceCheck()
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
-                    HTTP = "http://192.168.182.131:5000/api/heathcheck",
+                    HTTP = "http://localhost:50000/api/heathcheck",
                     Interval = TimeSpan.FromSeconds(10)
                 };
 
@@ -55,8 +55,8 @@ namespace TestConsulApi1
                     Address = "localhost",
                     Check = check,
                     Name = "api",
-                    Port = 5000,
-                    Tags = new string[] { "test_api" }
+                    Port = 50000,
+                    Tags = new string[] { "test_api1" }
                 };
 
                 consulClient.Agent.ServiceRegister(registration).Wait();
