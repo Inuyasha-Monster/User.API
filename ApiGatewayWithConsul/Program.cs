@@ -23,7 +23,7 @@ namespace ApiGatewayWithConsul
                 {
                     builder.SetBasePath(webhost.HostingEnvironment.ContentRootPath).AddJsonFile("Ocelot.json");
                 })
-                .UseUrls("http://localhost:4000")
+                .UseUrls("http://0.0.0.0:50002")
                 .UseStartup<Startup>()
                 .Build();
     }

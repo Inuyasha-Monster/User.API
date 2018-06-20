@@ -11,9 +11,9 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:4000",
+    "BaseUrl": "http://0.0.0.0:50002",
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
+      "Host": "192.168.182.131",
       "Port": 8500
     }
   }

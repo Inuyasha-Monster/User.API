@@ -19,7 +19,7 @@ namespace TestDnsClient
 
                 var input = string.IsNullOrWhiteSpace(inputStr) ? "192.168.182.131" : inputStr;
 
-                IDnsQuery dnsQuery = new LookupClient(IPAddress.Parse("192.168.182.131"), 8600);
+                IDnsQuery dnsQuery = new LookupClient(IPAddress.Parse($"{input}"), 8600);
                 var result = dnsQuery.ResolveService("service.consul", "api");
 
                 var first = result.OrderBy(x => Guid.NewGuid()).First();
